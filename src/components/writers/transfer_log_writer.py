@@ -20,5 +20,4 @@ class TransferLogWriter:
         """
 
         # Execute the insert statement
-        spark.sql(insert_statement)
-        
+        self.spark.sql(insert_statement)

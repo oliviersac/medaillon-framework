@@ -38,7 +38,7 @@ def main(parameters):
     try:
         transfer_status = 'SUCCESS'
         failed_reason = ''
-        final_df.write.mode("append").saveAsTable(destination_table_name)    
+        final_df.write.mode("append").saveAsTable(destination_table_name)
     except Exception as e:
         rows_added = 0
         rows_deduped = 0
