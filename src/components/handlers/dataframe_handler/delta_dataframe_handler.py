@@ -1,4 +1,4 @@
-from pyspark.sql.functions import col, when
+from pyspark.sql.functions import col
 
 class DataFrameHandler:   
     """Brief description of MyClass.
