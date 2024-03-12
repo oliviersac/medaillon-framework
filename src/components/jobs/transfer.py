@@ -4,6 +4,7 @@ import sys
 sys.path.append('../')
 from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
 from readers.delta_source_reader import DeltaReader
+from handlers.parameters_handler.argument_parser import ArgumentParser
 from pipelines.silver.stocks_transformation_rules import TransformDefinition
 
 # Obtain stats from the df
@@ -22,15 +23,8 @@ def main(parameters):
     destination_table_name = parameters.get("-destination_table_name")
     log_table_name = parameters.get("-log_table_name")
 
-    # ################################################################################################
-    # Pull data from bronze to silver and apply filtering logic
-    # ################################################################################################
-
     # Pull data from source table
     source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
-
-    # Obtain count of items in the df
-    rows_received = source_df.count()
 
     # Transform data before sending it to the next layer
     transformer = DataFrameHandler(spark, TransformDefinition)
@@ -71,25 +65,8 @@ def main(parameters):
     # Execute the insert statement
     spark.sql(insert_statement)
 
-def parse_arguments():
-    # Remove the first argument (script name)
-    args = sys.argv[1:]
-
-    # Parse arguments
-    parameters = {}
-    i = 0
-    while i < len(args):
-        # Check if parameter starts with '-' and has a corresponding value
-        if args[i].startswith('-') and i + 1 < len(args):
-            parameters[args[i]] = args[i + 1]
-            i += 1
-        else:
-            print("Invalid parameter:", args[i])
-        i += 1
-
-    return parameters
-
 
 if __name__ == '__main__':
-  parameters = parse_arguments()
+  arguments = sys.argv
+  parameters = ArgumentParser.parse_arguments(arguments)
   main(parameters)
