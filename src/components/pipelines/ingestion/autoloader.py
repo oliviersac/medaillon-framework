@@ -45,8 +45,8 @@ class Autoloader:
         # Setting stats for the import
     
         # AnalysisException: Queries with streaming sources must be executed with writeStream.start(); 
-        self.rows_received = streamingDF.count()
-        self.rows_added = self.rows_received
+        #self.rows_received = streamingDF.count()
+        #self.rows_added = self.rows_received
         
 
         # Can we merge the data instead of just writing
