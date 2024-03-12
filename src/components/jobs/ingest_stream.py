@@ -23,6 +23,8 @@ def main(parameters):
 
     Autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path,spark_schema)
 
+    print("Successfully autoloaded")
+
 if __name__ == '__main__':
   parameters = ArgumentParser.parse_arguments(sys.argv)
   main(parameters)
