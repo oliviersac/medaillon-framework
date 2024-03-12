@@ -24,15 +24,11 @@ def main(parameters):
     autoloader = Autoloader(spark_schema)
     autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path)
 
-    # Getting stats 
-    rows_received = autoloader.rows_received
-    rows_filtered = autoloader.rows_filtered
-    rows_deduped = autoloader.rows_deduped
-    rows_added = autoloader.rows_added
-
     # Insert a new transfer log entry
     log_writer = TransferLogWriter(spark)
-    log_writer.writeTransferLog('S3', 'dev-landing', 'S3', 'dev-bronze', 'dev.dev_bronze.stocks', '', rows_received, rows_filtered, rows_deduped, rows_added, 'SUCCESS', '')
+    log_writer.writeTransferLog('S3', 'dev-landing', 'S3', 'dev-bronze', 'dev.dev_bronze.stocks', '', 
+                                autoloader.rows_received, autoloader.rows_filtered, 
+                                autoloader.rows_deduped, autoloader.rows_added, 'SUCCESS', '')
 
 if __name__ == '__main__':
   parameters = ArgumentParser.parse_arguments(sys.argv)
