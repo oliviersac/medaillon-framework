@@ -11,7 +11,7 @@ class Autoloader:
         self.rows_added = 0
         self.spark_schema = spark_schema
     
-    def autoload_to_table(self, spark, file_path: StringType,destination_table_name: StringType,checkpoint_path: StringType, schema):
+    def autoload_to_table(self, spark, file_path: StringType,destination_table_name: StringType,checkpoint_path: StringType):
         # Set the schema for the data to stream
         spark_schema = self.spark_schema
 

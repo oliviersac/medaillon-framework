@@ -21,7 +21,7 @@ def main(parameters):
 
     # Doing autoload
     autoloader = Autoloader(spark_schema)
-    autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path,spark_schema)
+    autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path)
 
     # Getting stats 
     rows_received = autoloader.rows_received
