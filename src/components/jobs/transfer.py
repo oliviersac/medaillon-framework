@@ -22,12 +22,10 @@ def main(parameters):
     origin_table_name = parameters.get("-origin_table_name")
     destination_table_name = parameters.get("-destination_table_name")
     log_table_name = parameters.get("-log_table_name")
-
-    # Pull data from source table
-    source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
-
-    # Transform data before sending it to the next layer
     transformer = DataFrameHandler(spark, TransformDefinition)
+
+    # Pull data from source table and transform it
+    source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
     final_df = transformer.transformData(source_df)
  
     # Obtain stats after processing
@@ -50,7 +48,7 @@ def main(parameters):
 
     # Insert a new transfer log entry
     insert_statement = f"""
-    INSERT INTO dev.dev_activity_log.transfer_log(
+    INSERT INTO {log_table_name}(
         origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used, 
         rows_received, rows_filtered, rows_deduped, rows_added,
         processing_time, transfer_status, failed_reason
@@ -67,6 +65,5 @@ def main(parameters):
 
 
 if __name__ == '__main__':
-  arguments = sys.argv
-  parameters = ArgumentParser.parse_arguments(arguments)
+  parameters = ArgumentParser.parse_arguments(sys.argv)
   main(parameters)

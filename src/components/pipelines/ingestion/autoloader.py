@@ -3,7 +3,7 @@ from pyspark.sql.functions import col, current_timestamp
 from pyspark.sql.types import StructType, StructField, StringType, ArrayType, LongType
 
 class Autoloader:
-    def autoload_to_table(spark, file_path: StringType,table_name: StringType,schema_name: StringType,catalog_name: StringType,checkpoint_path: StringType, schema):
+    def autoload_to_table(spark, file_path: StringType,destination_table_name: StringType,checkpoint_path: StringType, schema):
         # Set the schema for the data to stream
         spark_schema = schema
 
@@ -38,4 +38,4 @@ class Autoloader:
         (streamingDF.writeStream
             .options(**writestream_options)  
             .trigger(availableNow=True)
-            .toTable(f"{catalog_name}.{schema_name}.{table_name}", mode="append"))
+            .toTable(f"{destination_table_name}", mode="append"))
