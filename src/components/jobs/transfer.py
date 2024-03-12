@@ -16,11 +16,11 @@ catalog_name = 'dev'
 checkpoint_path = ''
 """
 
-def main():
+def main(parameters):
     # Obtain parameters 
-    origin_table_name = dbutils.widgets.get("origin_table_name")
-    destination_table_name = dbutils.widgets.get("destination_table_name")
-    log_table_name = dbutils.widgets.get("log_table_name")
+    origin_table_name = parameters.get("-origin_table_name")
+    destination_table_name = parameters.get("-destination_table_name")
+    log_table_name = parameters.get("-log_table_name")
 
     # ################################################################################################
     # Pull data from bronze to silver and apply filtering logic
@@ -71,5 +71,25 @@ def main():
     # Execute the insert statement
     spark.sql(insert_statement)
 
+def parse_arguments():
+    # Remove the first argument (script name)
+    args = sys.argv[1:]
+
+    # Parse arguments
+    parameters = {}
+    i = 0
+    while i < len(args):
+        # Check if parameter starts with '-' and has a corresponding value
+        if args[i].startswith('-') and i + 1 < len(args):
+            parameters[args[i]] = args[i + 1]
+            i += 1
+        else:
+            print("Invalid parameter:", args[i])
+        i += 1
+
+    return parameters
+
+
 if __name__ == '__main__':
-  main()
+  parameters = parse_arguments()
+  main(parameters)
