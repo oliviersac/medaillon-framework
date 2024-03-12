@@ -1,11 +1,11 @@
 import sys
-sys.path.append('../../../')
+sys.path.append('../')
 
 import importlib
 
-from src.components.pipelines.ingestion.autoloader import Autoloader
-from src.components.handlers.parameters_handler.argument_parser import ArgumentParser
-from src.components.writers.transfer_log_writer import TransferLogWriter
+from pipelines.ingestion.autoloader import Autoloader
+from handlers.parameters_handler.argument_parser import ArgumentParser
+from writers.transfer_log_writer import TransferLogWriter
 
 
 def main(parameters):
@@ -23,7 +23,6 @@ def main(parameters):
     # Doing autoload
     autoloader = Autoloader(spark_schema)
     autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path)
-
 
     # Insert a new transfer log entry
     log_writer = TransferLogWriter(spark)

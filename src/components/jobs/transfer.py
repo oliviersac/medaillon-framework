@@ -8,16 +8,6 @@ from handlers.parameters_handler.argument_parser import ArgumentParser
 from pipelines.silver.stocks_transformation_rules import TransformDefinition
 from writers.transfer_log_writer import TransferLogWriter
 
-# Obtain stats from the df
-"""
-schema = '' # Define schema
-file_path = '/mnt/dev-landing/stocks/'
-table_name = 'stocks'
-schema_name = 'dev_bronze'
-catalog_name = 'dev'
-checkpoint_path = ''
-"""
-
 def main(parameters):
     # Obtain parameters 
     origin_table_name = parameters.get("-origin_table_name")
