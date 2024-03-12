@@ -33,10 +33,10 @@ def main(parameters):
     VALUES(
         'S3', 'dev-landing', 'S3', 'delta', 'dev-bronze', 'dev.dev_bronze.stocks', '', 
         0, 0, 0, 0,
-        current_timestamp(), '{transfer_status}', \"{failed_reason}\"
+        current_timestamp(), 'SUCCESS', ''
     )
     """
-    
+
     # Execute the insert statement
     spark.sql(insert_statement)
 
