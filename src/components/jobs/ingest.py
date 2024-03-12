@@ -24,16 +24,10 @@ def main(parameters):
     autoloader = Autoloader(spark_schema)
     autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path)
 
-    """
-        def writeTransferLog(origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used,
-                         rows_received, rows_filtered, rows_deduped, rows_added, transfer_status, failed_reason):
-    
-    """
-
 
     # Insert a new transfer log entry
     log_writer = TransferLogWriter(spark)
-    log_writer.writeTransferLog('S3', 'dev-landing', 'S3', 'dev-bronze', '', destination_table_name, '', 
+    log_writer.writeTransferLog('S3', 'dev-landing', 'S3', 'delta', 'dev-bronze', destination_table_name, '', 
                                 autoloader.rows_received, autoloader.rows_filtered, 
                                 autoloader.rows_deduped, autoloader.rows_added, 'SUCCESS', '')
 

@@ -6,6 +6,7 @@ from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
 from readers.delta_source_reader import DeltaReader
 from handlers.parameters_handler.argument_parser import ArgumentParser
 from pipelines.silver.stocks_transformation_rules import TransformDefinition
+from writers.transfer_log_writer import TransferLogWriter
 
 # Obtain stats from the df
 """
@@ -35,6 +36,8 @@ def main(parameters):
     rows_added = transformer.rows_added
 
     # Insert data into destination table
+    # Writer object here
+    # and dont forget to return metrics from it too
     try:
         transfer_status = 'SUCCESS'
         failed_reason = ''
@@ -47,22 +50,11 @@ def main(parameters):
         failed_reason = str(e)      
 
     # Insert a new transfer log entry
-    insert_statement = f"""
-    INSERT INTO {log_table_name}(
-        origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used, 
-        rows_received, rows_filtered, rows_deduped, rows_added,
-        processing_time, transfer_status, failed_reason
-    )
-    VALUES(
-        'delta', 'dev-bronze', 'dev.dev_bronze.stocks', 'delta', 'dev-silver', 'dev.dev_silver.stocks', '', 
-        {rows_received}, {rows_filtered}, {rows_deduped}, {rows_added},
-        current_timestamp(), '{transfer_status}', \"{failed_reason}\"
-    )
-    """
-
-    # Execute the insert statement
-    spark.sql(insert_statement)
-
+    log_writer = TransferLogWriter(spark)
+    log_writer.writeTransferLog('delta', 'dev-bronze', 'dev.dev_bronze.stocks', 'delta-bronze', 'dev-silver', destination_table_name, '', 
+                                rows_received, rows_filtered, 
+                                rows_deduped, rows_added, transfer_status, failed_reason)
+    
 
 if __name__ == '__main__':
   parameters = ArgumentParser.parse_arguments(sys.argv)
