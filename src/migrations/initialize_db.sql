@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS dev.dev_activity_log.transfer_log;
 DROP TABLE IF EXISTS dev.dev_silver.stocks;
 
 CREATE TABLE IF NOT EXISTS dev.dev_activity_log.transfer_log(
-    origin_type varchar(255) COMMENT 'The type of the origin (dev_bronze, dev_silver, dev-landing)',
-    origin_name varchar(255) COMMENT 'The name of the origin (S3, delta_table, source)',
+    origin_type varchar(255) COMMENT 'The type of the origin (S3, delta_table, source)',
+    origin_name varchar(255) COMMENT 'The name of the origin (dev_bronze, dev_silver, dev-landing)',
     origin_table varchar(255) COMMENT 'The table of the origin (dev.dev_bronze.stocks)', 
     destination_type varchar(255) COMMENT 'The type of the destination (dev_bronze, dev_silver, dev-landing)',
     destination_name varchar(255) COMMENT 'The name of the destination (S3, delta_table, source)',
