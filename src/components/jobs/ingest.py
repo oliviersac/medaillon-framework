@@ -4,7 +4,7 @@ sys.path.append('../../../')
 import importlib
 
 from src.components.pipelines.ingestion.autoloader import Autoloader
-from handlers.parameters_handler.argument_parser import ArgumentParser
+from src.components.handlers.parameters_handler.argument_parser import ArgumentParser
 
 
 def main(parameters):
