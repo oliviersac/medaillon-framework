@@ -20,6 +20,7 @@ class Autoloader:
             "cloudFiles.maxBytesPerTrigger": "10g"
         }
 
+        # Defining the write stream options for saving the data
         writestream_options = {
             "checkpointLocation" : checkpoint_path,
             "mergeSchema": "true" # Merging the new schema with the existing one automatically 
@@ -35,7 +36,6 @@ class Autoloader:
 
         # Can we merge the data instead of just writing
         (streamingDF.writeStream
-            .option("checkpointLocation", checkpoint_path)
-            .option("mergeSchema", "true")  # Merge schema option  
+            .options(**writestream_options)  
             .trigger(availableNow=True)
             .toTable(f"{catalog_name}.{schema_name}.{table_name}", mode="append"))

@@ -3,40 +3,34 @@ from pyspark.sql.functions import col, when, max as spark_max
 import sys
 sys.path.append('../../')
 from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
+from components.readers.delta_source_reader import DeltaReader
 from pipelines.silver.stocks_transformation_rules import TransformDefinition
 
 # Obtain stats from the df
+"""
 schema = '' # Define schema
 file_path = '/mnt/dev-landing/stocks/'
 table_name = 'stocks'
 schema_name = 'dev_bronze'
 catalog_name = 'dev'
 checkpoint_path = ''
+"""
+
+# Obtain parameters 
+origin_catalog_name = dbutils.widgets.get("origin_catalog_name")
+origin_schema_name = dbutils.widgets.get("origin_schema_name")
+origin_table_name = dbutils.widgets.get("origin_table_name")
+log_table_name = dbutils.widgets.get("log_table_name")
+
+origin_full_table_name = f"{origin_catalog_name}.{origin_schema_name}.{origin_table_name}"
+
 
 # ################################################################################################
 # Pull data from bronze to silver and apply filtering logic
 # ################################################################################################
 
 # Pull data from source table
-select_statement = f"""
-SELECT 
-    *
-FROM 
-    dev.dev_bronze.stocks
-WHERE 
-    processing_time > (
-    SELECT CASE 
-               WHEN max(processing_time) IS NULL THEN '1901-03-06T20:21:31.400+00:00'            
-               ELSE max(processing_time)
-           END AS processing_time
-    FROM dev.dev_activity_log.transfer_log
-    WHERE origin_table = 'dev.dev_bronze.stocks'
-      AND rows_received > 0
-      AND transfer_status = 'SUCCESS'
-    );
-"""
-#select_statement = f"SELECT * FROM dev.dev_bronze.stocks"
-source_df = spark.sql(select_statement)
+source_df = DeltaReader.loadSourceByLog(spark, origin_full_table_name, log_table_name)
 
 # Obtain count of items in the df
 rows_received = source_df.count()
