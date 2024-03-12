@@ -43,8 +43,11 @@ class Autoloader:
             .select("*", col("_metadata.file_path").alias("source_file"), current_timestamp().alias("processing_time")))
 
         # Setting stats for the import
+        """
+        # AnalysisException: Queries with streaming sources must be executed with writeStream.start(); 
         self.rows_received = streamingDF.count()
         self.rows_added = self.rows_received
+        """
 
         # Can we merge the data instead of just writing
         (streamingDF.writeStream
