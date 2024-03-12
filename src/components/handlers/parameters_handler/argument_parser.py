@@ -3,6 +3,9 @@ class ArgumentParser:
 
     def parse_arguments(arguments):
 
+        # Remove the first argument (script name)
+        arguments = arguments[1:]
+
         # Parse arguments
         parameters = {}
         i = 0
