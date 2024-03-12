@@ -19,9 +19,15 @@ def main(parameters):
     module = importlib.import_module(schema_path)
     spark_schema = module.TopicSchema.getSchema()
 
-    Autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path,spark_schema)
+    # Doing autoload
+    autoloader = Autoloader(spark_schema)
+    autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path,spark_schema)
 
-    print("Successfully autoloaded")
+    # Getting stats 
+    rows_received = autoloader.rows_received
+    rows_filtered = autoloader.rows_filtered
+    rows_deduped = autoloader.rows_deduped
+    rows_added = autoloader.rows_added
 
     # Insert a new transfer log entry
     insert_statement = f"""
@@ -32,7 +38,7 @@ def main(parameters):
     )
     VALUES(
         'S3', 'dev-landing', 'S3', 'delta', 'dev-bronze', 'dev.dev_bronze.stocks', '', 
-        0, 0, 0, 0,
+        {rows_received}, {rows_filtered}, {rows_deduped}, {rows_added},
         current_timestamp(), 'SUCCESS', ''
     )
     """
