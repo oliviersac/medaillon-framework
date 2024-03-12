@@ -15,7 +15,6 @@ def main(parameters):
     checkpoint_path = parameters.get("-checkpoint_path")
     schema_path = parameters.get("-schema_path")
 
-
     # Dynamically import the schema definition
     module = importlib.import_module(schema_path)
     spark_schema = module.TopicSchema.getSchema()
@@ -23,6 +22,23 @@ def main(parameters):
     Autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path,spark_schema)
 
     print("Successfully autoloaded")
+
+    # Insert a new transfer log entry
+    insert_statement = f"""
+    INSERT INTO {log_table_name}(
+        origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used, 
+        rows_received, rows_filtered, rows_deduped, rows_added,
+        processing_time, transfer_status, failed_reason
+    )
+    VALUES(
+        'S3', 'dev-landing', 'S3', 'delta', 'dev-bronze', 'dev.dev_bronze.stocks', '', 
+        0, 0, 0, 0,
+        current_timestamp(), '{transfer_status}', \"{failed_reason}\"
+    )
+    """
+    
+    # Execute the insert statement
+    spark.sql(insert_statement)
 
 if __name__ == '__main__':
   parameters = ArgumentParser.parse_arguments(sys.argv)
