@@ -26,7 +26,7 @@ def main(parameters):
 
     # Insert a new transfer log entry
     log_writer = TransferLogWriter(spark)
-    log_writer.writeTransferLog('S3', 'dev-landing', 'S3', 'dev-bronze', 'dev.dev_bronze.stocks', '', 
+    log_writer.writeTransferLog('S3', 'dev-landing', 'S3', 'dev-bronze', destination_table_name, '', 
                                 autoloader.rows_received, autoloader.rows_filtered, 
                                 autoloader.rows_deduped, autoloader.rows_added, 'SUCCESS', '')
 
