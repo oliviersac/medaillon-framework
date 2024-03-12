@@ -13,7 +13,7 @@ class Autoloader:
     
     def autoload_to_table(self, spark, file_path: StringType,destination_table_name: StringType,checkpoint_path: StringType, schema):
         # Set the schema for the data to stream
-        spark_schema = schema
+        spark_schema = self.spark_schema
 
         # Add column(s) specific to the Autoloader
         spark_schema.add(StructField("_file_path", StringType(), True))
