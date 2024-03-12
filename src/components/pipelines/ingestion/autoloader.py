@@ -41,19 +41,17 @@ class Autoloader:
             .schema(spark_schema)
             .load(file_path)
             .select("*", col("_metadata.file_path").alias("source_file"), current_timestamp().alias("processing_time")))
-
         # Setting stats for the import
 
-        # Can we merge the data instead of just writing
-        query = (streamingDF.writeStream
-                .options(**writestream_options)
-                .trigger(availableNow=True)
-                .toTable(f"{destination_table_name}", mode="append")
-        )  # Start the streaming query
+        # AnalysisException: Queries with streaming sources must be executed with writeStream.start(); 
+        #self.rows_received = streamingDF.count()
+        #self.rows_added = self.rows_received
 
-        # Wait for the termination of the query
-        query.start()
-        query.awaitTermination()
+        # Can we merge the data instead of just writing
+        (streamingDF.writeStream
+            .options(**writestream_options)  
+            .trigger(availableNow=True)
+            .toTable(f"{destination_table_name}", mode="append"))
 
 
         """
