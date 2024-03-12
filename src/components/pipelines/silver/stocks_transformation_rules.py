@@ -41,7 +41,9 @@ class TransformDefinition:
         }
     
     def getDedupeRules():
-        return ["IdStock", "Symbol", "LastTradeDate"]
+        # The columns must not be null
+        # The column must not have been converted
+        return ["IdStock", "Symbol"]
     
     def getAggregateRules():
         return None
