@@ -5,6 +5,7 @@ import importlib
 
 from src.components.pipelines.ingestion.autoloader import Autoloader
 from src.components.handlers.parameters_handler.argument_parser import ArgumentParser
+from src.components.writers.transfer_log_writer import TransferLogWriter
 
 
 def main(parameters):
@@ -30,21 +31,8 @@ def main(parameters):
     rows_added = autoloader.rows_added
 
     # Insert a new transfer log entry
-    insert_statement = f"""
-    INSERT INTO dev.dev_activity_log.transfer_log(
-        origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used, 
-        rows_received, rows_filtered, rows_deduped, rows_added,
-        processing_time, transfer_status, failed_reason
-    )
-    VALUES(
-        'S3', 'dev-landing', 'S3', 'delta', 'dev-bronze', 'dev.dev_bronze.stocks', '', 
-        {rows_received}, {rows_filtered}, {rows_deduped}, {rows_added},
-        current_timestamp(), 'SUCCESS', ''
-    )
-    """
-
-    # Execute the insert statement
-    spark.sql(insert_statement)
+    log_writer = TransferLogWriter(spark)
+    log_writer.writeTransferLog('S3', 'dev-landing', 'S3', 'dev-bronze', 'dev.dev_bronze.stocks', '', rows_received, rows_filtered, rows_deduped, rows_added, 'SUCCESS', '')
 
 if __name__ == '__main__':
   parameters = ArgumentParser.parse_arguments(sys.argv)
