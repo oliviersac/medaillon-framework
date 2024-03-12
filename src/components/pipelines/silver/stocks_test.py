@@ -1,4 +1,3 @@
-# Databricks notebook source
 from pyspark.sql.functions import col, when, max as spark_max
 
 import sys
@@ -42,21 +41,16 @@ source_df = spark.sql(select_statement)
 # Obtain count of items in the df
 rows_received = source_df.count()
 
-
-
-# ################################################################################################
-# Transformations
-# ################################################################################################
-
 # Transform data before sending it to the next layer
 transformer = DataFrameHandler(spark, TransformDefinition)
 final_df = transformer.transformData(source_df)
 rows_processed = final_df.count()
 
-
-# ################################################################################################
-# Add data in silver
-# ################################################################################################
+# Obtain stats after processing
+rows_received = transformer.rows_received
+rows_filtered = transformer.rows_filtered
+rows_deduped = transformer.rows_deduped
+rows_added = transformer.rows_added
 
 # Insert data into destination table
 try:
@@ -64,7 +58,7 @@ try:
     failed_reason = ''
     final_df.write.mode("append").saveAsTable("dev.dev_silver.stocks")    
 except Exception as e:
-    rows_processed = 0
+    rows_added = 0
     transfer_status = 'FAILED'
     failed_reason = str(e)
     
@@ -77,16 +71,16 @@ except Exception as e:
 # Insert a new transfer log entry
 insert_statement = f"""
 INSERT INTO dev.dev_activity_log.transfer_log(
-    origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used, rows_received, rows_processed,
+    origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used, 
+    rows_received, rows_filtered, rows_deduped, rows_added,
     processing_time, transfer_status, failed_reason
 )
 VALUES(
-    'delta', 'dev-bronze', 'dev.dev_bronze.stocks', 'delta', 'dev-silver', 'dev.dev_silver.stocks', '', {rows_received}, {rows_processed},
+    'delta', 'dev-bronze', 'dev.dev_bronze.stocks', 'delta', 'dev-silver', 'dev.dev_silver.stocks', '', 
+    {rows_received}, {rows_filtered}, {rows_deduped}, {rows_added},
     current_timestamp(), '{transfer_status}', \"{failed_reason}\"
 )
 """
 
 # Execute the insert statement
 spark.sql(insert_statement)
-
-

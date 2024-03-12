@@ -16,7 +16,7 @@ class Autoloader:
             "cloudFiles.schemaLocation": checkpoint_path,
             "cloudfiles.useNotifications": "true",
             "cloudFiles.schemaEvolutionMode": "rescue",
-            "cloudFiles.maxFilesPerTrigger": 1000,
+            "cloudFiles.maxFilesPerTrigger": 5000,
             "cloudFiles.maxBytesPerTrigger": "10g"
         }
 
