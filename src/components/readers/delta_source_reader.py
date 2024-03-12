@@ -19,4 +19,3 @@ class DeltaReader:
         """
 
         return spark.sql(select_statement)
-    
