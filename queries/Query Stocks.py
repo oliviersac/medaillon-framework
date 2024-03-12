@@ -10,9 +10,14 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT  *   FROM  dev.dev_bronze.stocks 
-# MAGIC ORDER BY processing_time desc;
-# MAGIC -- SELECT  *   FROM  dev.dev_silver.stocks;
+# MAGIC
+# MAGIC -- SELECT  *   FROM  dev.dev_bronze.stocks ORDER BY processing_time desc;
+# MAGIC SELECT  count(*)   FROM  dev.dev_bronze.stocks 
+# MAGIC
+# MAGIC
+# MAGIC
+# MAGIC --select processing_time, count(*) from dev.dev_bronze.stocks group by processing_time order by processing_time
+# MAGIC
 
 # COMMAND ----------
 
@@ -22,9 +27,8 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC SELECT  *   FROM  dev.dev_silver.stocks;
+# MAGIC SELECT  count(*)   FROM  dev.dev_silver.stocks;
 # MAGIC
-# MAGIC --DESCRIBE dev.dev_silver.stocks;
 
 # COMMAND ----------
 
@@ -35,9 +39,10 @@
 
 # MAGIC %sql
 # MAGIC
-# MAGIC select * from dev.dev_activity_log.transfer_log order by processing_time desc limit 10;
+# MAGIC -- select count(*), sum(rows_received), sum(rows_processed) from dev.dev_activity_log.transfer_log;
+# MAGIC  select * from dev.dev_activity_log.transfer_log order by processing_time;
 # MAGIC
-# MAGIC -- delete from dev.dev_activity_log.transfer_log;
+# MAGIC -- delete from dev.dev_activity_log.transfer_log where processing_time >= '2024-03-12T02:06:49.508+00:00'
 
 # COMMAND ----------
 
@@ -47,5 +52,5 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC delete from dev.dev_activity_log.transfer_log;
-# MAGIC delete from dev.dev_silver.stocks;
+# MAGIC -- delete from dev.dev_activity_log.transfer_log;
+# MAGIC -- delete from dev.dev_silver.stocks;
