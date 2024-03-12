@@ -3,7 +3,7 @@ from pyspark.sql.functions import col, when, max as spark_max
 import sys
 sys.path.append('../')
 from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
-from components.readers.delta_source_reader import DeltaReader
+from readers.delta_source_reader import DeltaReader
 from pipelines.silver.stocks_transformation_rules import TransformDefinition
 
 # Obtain stats from the df
