@@ -27,7 +27,7 @@ def main():
     # ################################################################################################
 
     # Pull data from source table
-    source_df = DeltaReader.loadSourceByLog(spark, origin_full_table_name, log_table_name)
+    source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
 
     # Obtain count of items in the df
     rows_received = source_df.count()
