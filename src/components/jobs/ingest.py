@@ -25,7 +25,7 @@ def main(parameters):
 
     # Insert a new transfer log entry
     insert_statement = f"""
-    INSERT INTO {log_table_name}(
+    INSERT INTO dev.dev_activity_log.transfer_log(
         origin_type, origin_name, origin_table, destination_type, destination_name, destination_table, schema_used, 
         rows_received, rows_filtered, rows_deduped, rows_added,
         processing_time, transfer_status, failed_reason
