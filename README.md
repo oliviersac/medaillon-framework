@@ -37,7 +37,9 @@ The transfer log table is a key component in any pipeline mechanisms. It logs al
 | destination_table  | The table of the destination (stocks)  |
 | schema_used  | The schema that was used to store the data  |
 | rows_received  | The number of rows that were received for processing  |
-| rows_processed  | The number of rows that were processed  |
+| rows_filtered  | The number of rows that were filtered while processing  |
+| rows_deduped  | The number of rows that were deduped while processing  |
+| rows_added  | The number of rows that were added  |
 | processing_time  | The date that the processing was done  |
 | transfer_status  | SUCCESS or FAIL after processing  |
 | failed_reason  | The reason why the transfer failed  |
