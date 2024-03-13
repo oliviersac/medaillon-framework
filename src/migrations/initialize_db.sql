@@ -10,7 +10,9 @@ CREATE TABLE IF NOT EXISTS dev.dev_activity_log.transfer_log(
     destination_table varchar(255) COMMENT 'The table of the destination (stocks)', 
     schema_used varchar(255) COMMENT 'The schema that was used to store the data',
     rows_received INT COMMENT 'The number of rows that were received for processing',
-    rows_processed INT COMMENT 'The number of rows that were processed',
+    rows_filtered INT COMMENT 'The number of rows that were filtered while processing',
+    rows_deduped INT COMMENT 'The number of rows that were deduped while processing',
+    rows_added INT COMMENT 'The number of rows that were added',
     processing_time TIMESTAMP COMMENT 'The date that the processing was done',
     transfer_status varchar(255) COMMENT 'SUCCESS or FAIL after processing',
     failed_reason varchar(1000) COMMENT 'The reason why the transfer failed'
