@@ -1,6 +1,7 @@
 # datalake-test
 
 ## Description
+
 This service handles data ingestion and data transformations based on the medaillon architecture for Data-Lakes. 
 
 ## Local Setup
@@ -39,5 +40,3 @@ This is done by bla
 
 
 ## How Medaillon Architecture is managed
-
-

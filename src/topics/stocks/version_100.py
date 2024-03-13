@@ -1,6 +1,6 @@
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, FloatType, BooleanType, LongType, ArrayType
 
-class StockData:
+class TopicSchema:
     @classmethod
     def getSchema(cls) -> StructType:
         schema = StructType([
