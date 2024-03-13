@@ -1,16 +1,9 @@
-# Description
-
-This service handles data ingestion and data transformations based on the medaillon architecture for Data-Lakes. 
-
-
-
-# Architecture
-This project is following the medaillon architecture. You can access more details and documentation by following this link
-- [Medaillon Architecure Documentation](doc/sections/medaillon_architecture/main.md)
-
 # Main Components
 
-## Handlers
+## Related Documentation
+- [Project Main Documentation](../../../README.md)
+
+## Component: Handler
 Handlers are managing data transformations on dataframes and other types of conversions. In most pipelines, the handlers will filter data or dedupe data. Basically the responsibility of a handler is to modify data.
 
 ### Handlers responsibilities
@@ -20,19 +13,19 @@ Handlers are managing data transformations on dataframes and other types of conv
 - Aggregate Data
 - Order Data
 
-## Pipelines
+## Component: Pipeline
 The pipelines are basically just defined by the transformation that needs to be done. For instance, between bronze and silver, there is a need for data filtering and deduplication. The filtering rules and de deduplication rules are defined in a pipeline component
 
 ### Pipelines responsibilities
 - Define operations to be done in order to transfer to the next stage (bronze, silver, gold)
 
-## Readers
+## Component: Reader
 
-## Writers
+## Component: Writer
 
-## Jobs
+## Component:Job
 
-## Transfer Log table
+## Component: Transfer Log table
 The transfer log table is a key component in any pipeline mechanisms. It logs all operations that occurs between the source and the final layer destination.
 
 
@@ -54,17 +47,3 @@ The transfer log table is a key component in any pipeline mechanisms. It logs al
 | transfer_status  | SUCCESS or FAIL after processing  |
 | failed_reason  | The reason why the transfer failed  |
 
-
-
-
-# How-To Section
-- [Creating a new pipeline](doc/sections/creating_pipelines/main.md)
-
-
-## How Medaillon Architecture is managed
-
-
-
-
-# Local Setup
-Local setup is not defined yet
