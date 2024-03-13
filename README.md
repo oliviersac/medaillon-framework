@@ -9,7 +9,7 @@ Local setup is not defined yet
 
 
 ## Medaillon Architecture
-![Image Alt text](doc/images/medaillon.png)
+- [Medaillon Architecure Documentation](doc/medaillon_architecture/medaillon_architecture.md)
 
 ## Main Components
 
