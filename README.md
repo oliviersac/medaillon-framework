@@ -7,16 +7,16 @@ This service handles data ingestion and data transformations based on the medail
 
 ## Documentation Sections
 
-#### Getting Started
-- AWS Setup
+#### Getting Started:
+- [AWS Setup](doc/sections/aws_setup/main.md)
 - Databricks Configuration
 - Local Setup
 
-#### Architecture
+#### Architecture:
 - [Main Architecure](doc/sections/medaillon_architecture/main.md)
 - [Architectural Components](doc/sections/main_components/main.md)
 
-#### How to
+#### How to:
 - [Creating a new pipeline](doc/sections/creating_pipelines/main.md)
 - [Creating and running tests](doc/sections/automated_testing/main.md)
 
