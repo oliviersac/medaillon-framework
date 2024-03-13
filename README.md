@@ -16,16 +16,14 @@ This service handles data ingestion and data transformations based on the medail
 This project is following the medaillon architecture. You can access more details and documentation by following this link
 [Medaillon Architecure Documentation](doc/sections/medaillon_architecture/main.md)
 
-## Main Components
+## Components
+Components are essential parts of the execution of data pipelines. They are involved in any data movement from origin to destination involving data transformations. 
 
-Main components for this project are as follow:
-- Handlers
-- Pipelines
-- Readers
-- Writers
-- Jobs
+Components are defined by their responsibilities. So if any new component is added, it should be added in the proper directory. 
 
-Documentation for those components is available here: [Main Components](doc/sections/main_components/main.md)
+For more information about the components resposibilities, this documentation is available:
+
+[Main Components](doc/sections/main_components/main.md)
 
 
 ## How-To Section
