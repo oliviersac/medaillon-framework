@@ -8,6 +8,9 @@ This service handles data ingestion and data transformations based on the medail
 Local setup is not defined yet
 
 
+## Medaillon Architecture
+![Image Alt text](doc/images/medaillon.png)
+
 ## Main Components
 
 ### Handlers
