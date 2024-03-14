@@ -1,5 +1,7 @@
 # Main Components
 
+#### Navigation Menu
+- [Project Main Documentation](../../../README.md)
 
 ## Description
 Components are essential parts of the execution of data pipelines. They are involved in any data movement from origin to destination involving data transformations. Finaly, components are involved in the orchestration of the different steps required for a full pipeline.
@@ -8,9 +10,6 @@ Components are essential parts of the execution of data pipelines. They are invo
 Components interactions:
 ![Image Alt text](../../images/Components.jpg)
 
-
-## Related Documentation
-- [Project Main Documentation](../../../README.md)
 
 ## Component: Handler
 Handlers are managing data transformations on dataframes and other types of conversions. In most pipelines, the handlers will filter data or dedupe data. Basically the responsibility of a handler is to modify data.
