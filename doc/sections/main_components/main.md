@@ -1,5 +1,14 @@
 # Main Components
 
+
+## Description
+Components are essential parts of the execution of data pipelines. They are involved in any data movement from origin to destination involving data transformations. Finaly, components are involved in the orchestration of the different steps required for a full pipeline.
+
+## Overview
+Components interactions:
+![Image Alt text](../../images/Components.jpg)
+
+
 ## Related Documentation
 - [Project Main Documentation](../../../README.md)
 

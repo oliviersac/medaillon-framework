@@ -5,6 +5,10 @@
 
 This service handles data ingestion and data transformations based on the medaillon architecture for Data-Lakes. 
 
+## Architecture
+This project is following the medaillon architecture. You can access more details and documentation by following this link
+[Medaillon Architecure Documentation](doc/sections/medaillon_architecture/main.md)
+
 ## Documentation Sections
 
 #### Getting Started:
@@ -19,20 +23,15 @@ This service handles data ingestion and data transformations based on the medail
 #### How to:
 - [Creating a new pipeline](doc/sections/creating_pipelines/main.md)
 - [Creating and running tests](doc/sections/automated_testing/main.md)
+- [Delete duplicates in a delta table](doc/sections/debug_remove_dupes.md/main.md)
 
 
-## Architecture
-This project is following the medaillon architecture. You can access more details and documentation by following this link
-[Medaillon Architecure Documentation](doc/sections/medaillon_architecture/main.md)
+
 
 ## Components
 Components are essential parts of the execution of data pipelines. They are involved in any data movement from origin to destination involving data transformations. Finaly, components are involved in the orchestration of the different steps required for a full pipeline.
 
 [More information on the components section](doc/sections/main_components/main.md)
-
-
-## How-To Section
-- [Creating a new pipeline](doc/sections/creating_pipelines/main.md)
 
 
 ## How Medaillon Architecture is managed
