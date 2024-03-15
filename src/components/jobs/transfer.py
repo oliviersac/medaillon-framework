@@ -17,7 +17,8 @@ def main(parameters):
 
     # Pull data from source table and transform it
     source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
-    final_df = transformer.transformData(source_df)
+    destination_df = DeltaReader.loadTable(spark, destination_table_name)
+    final_df = transformer.transformData(source_df, destination_df)
  
     # Obtain stats after processing
     rows_received = transformer.rows_received
