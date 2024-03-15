@@ -20,6 +20,10 @@ def main(parameters):
 
     # Dynamically import the transform definition and assign it to the transformer
     module = importlib.import_module(transform_definiton_path)
+
+    print(transform_definiton_path)
+    print(module)
+
     transfer_rules = module.TransformDefinition.getTransformationRules()
     transformer = DataFrameHandler(transfer_rules)
 

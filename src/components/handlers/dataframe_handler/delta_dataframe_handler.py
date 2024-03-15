@@ -36,11 +36,13 @@ class DataFrameHandler:
         df_count = df.count()
         filters = []
 
+        # Build condition
         for rule in filter_rules:
             filter_expr = f"{rule['column']} {rule['operator']} '{rule['value']}'"
             filters.append(filter_expr)
         condition = " AND ".join(filters)
 
+        # Apply filter
         df_filtered = df.filter(condition)
         self.rows_filtered = df_count - df_filtered.count()
 
