@@ -13,11 +13,12 @@ def main(parameters):
     origin_table_name = parameters.get("-origin_table_name")
     destination_table_name = parameters.get("-destination_table_name")
     log_table_name = parameters.get("-log_table_name")
-    transformer = DataFrameHandler(spark, TransformDefinition)
+    transformer = DataFrameHandler(TransformDefinition)
 
     # Pull data from source table and transform it
     source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
-    final_df = transformer.transformData(source_df)
+    destination_df = DeltaReader.loadTable(spark, destination_table_name)
+    final_df = transformer.transformData(source_df, destination_df)
  
     # Obtain stats after processing
     rows_received = transformer.rows_received

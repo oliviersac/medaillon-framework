@@ -23,16 +23,16 @@ class TransformDefinition:
 
     """
 
-    def getJoinRules():
+    def _getJoinRules():
         return None
 
-    def getFilterRules():
+    def _getFilterRules():
         return [
             {"column": "IdStock", "operator": ">", "value": 0},
             {"column": "Name", "operator": "<>", "value": ''}
         ]
 
-    def getConversionRules():
+    def _getConversionRules() :
         return {
             "LastTradeTime": lambda x: when(x != "", x.cast("string")).otherwise(None),
             "LastTradeDate": lambda x: when(x != "", x.cast("string")).otherwise(None),
@@ -40,14 +40,26 @@ class TransformDefinition:
             "Lastupdatetime": lambda x: when(x != "", x.cast("string")).otherwise(None)
         }
     
-    def getDedupeRules():
+    def _getDedupeRules():
         # The columns must not be null
         # The column must not have been converted
         return ["IdStock", "Symbol"]
     
-    def getAggregateRules():
+    def _getAggregateRules():
         return None
     
-    def getSelectedRules():
+    def _getSelectedRules():
         return None
     
+    def _getOrderRules():
+        return None
+    
+    # Build the transformation Pipeline. Order is important
+    def getTransformationRules():
+        return {
+            "transformation_rules" : [
+                {"filter_rule" : TransformDefinition._getFilterRules()},
+                {"conversion_rule": TransformDefinition._getConversionRules()},
+                {"dedupe_rule": TransformDefinition._getDedupeRules()}
+            ]
+        } 
