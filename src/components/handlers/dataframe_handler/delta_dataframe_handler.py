@@ -113,16 +113,6 @@ class DataFrameHandler:
         return df_transformed
 
 """
-        # OLD
-        for transformation in transformation_rules:
-            #if transformation.
-            df = self._applyFilters(df, self.transformDefinition.getFilterRules())
-            df = self._applyConversions(df, self.transformDefinition.getConversionRules())
-            df = self._applyDeduplication(df, self.transformDefinition.getDedupeRules(), True)
-            df = self._applyAggregation(df, self.transformDefinition.getAggregateRules())
-            df = self._applySelect(df, self.transformDefinition.getSelectedRules())
-
-
 match lang:
     case "JavaScript":
         print("You can become a web developer.")
