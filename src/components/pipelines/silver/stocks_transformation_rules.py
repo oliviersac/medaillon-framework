@@ -59,4 +59,4 @@ class TransformDefinition:
                 {"conversion_rule": TransformDefinition.getConversionRules()},
                 {"dedupe_rule": TransformDefinition.getDedupeRules()}
             ]
-        }
+        } 

@@ -1,5 +1,5 @@
 class DeltaReader:
-    def loadSourceByLog(spark, origin_full_table_name, log_table_name):
+    def loadSourceByLog(spark, origin_table_name, log_table_name):
         select_statement = f"""
         SELECT 
             *
@@ -12,10 +12,13 @@ class DeltaReader:
                     ELSE max(processing_time)
                 END AS processing_time
             FROM {log_table_name}
-            WHERE origin_table = '{origin_full_table_name}'
+            WHERE origin_table = '{origin_table_name}'
             AND rows_received > 0
             AND transfer_status = 'SUCCESS'
             );
         """
 
         return spark.sql(select_statement)
+    
+    def loadTable(spark, table_name):
+        return spark.table(table_name)

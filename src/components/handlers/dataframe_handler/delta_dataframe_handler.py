@@ -53,26 +53,24 @@ class DataFrameHandler:
         return df
 
     # Remove deduplication in current df and check destination_table based on keys
-    def _applyDeduplication(self, df, dedupe_columns, lookup_destination_table):
-        df_count = df.count()
+    def _applyDeduplication(self, df_origin, df_destination, dedupe_columns):
+        df_count = df_origin.count()
         # Deduplicate the DataFrame based on two specific columns
-        deduplicated_df = df.dropDuplicates(dedupe_columns)
+        deduplicated_df = df_origin.dropDuplicates(dedupe_columns)
 
-        if lookup_destination_table:
-            # Load the target table DataFrame
-            target_table_df = self.spark.table("dev.dev_silver.stocks")
-
+        # If destination df is set, origin df will be deduped with it
+        if df_destination != None:    
             # Initialize the join condition
             join_condition = []
 
             # Construct the join condition dynamically
             # The column must not be null
             for column in dedupe_columns:
-                condition = deduplicated_df[column] == target_table_df[column]
+                condition = deduplicated_df[column] == df_destination[column]
                 join_condition.append(condition)
 
             # Perform left anti join to identify rows that already exist in the target table
-            deduplicated_df = deduplicated_df.join(target_table_df, join_condition, "left_anti")
+            deduplicated_df = deduplicated_df.join(df_destination, join_condition, "left_anti")
 
         self.rows_deduped = df_count - deduplicated_df.count()
 
@@ -87,13 +85,35 @@ class DataFrameHandler:
         return df
 
     # Apply transformations
-    def transformData(self, df):
-        self.rows_received = df.count()
+    def transformData(self, df_origin, df_destination):
+        self.rows_received = df_origin.count()
         transformation_rules = self.transformDefinition.getTransformationRules()
+        df_transformed = df_origin
 
+        # Apply transformation rules in order
+        for rule in transformation_rules["transformation_rules"]:
+            for key, value in rule.items():
+                if key == 'filter_rule':
+                    df_transformed = self._applyFilters(df_transformed, value)
+                elif key == 'conversion_rule':
+                    df_transformed = self._applyConversions(df_transformed, value)
+                elif key == 'dedupe_rule':
+                    df_transformed = self._applyDeduplication(df_transformed, df_destination, value)
+                elif key == 'aggregation_rule':
+                    df_transformed = self._applyAggregation(df_transformed, value)
+                elif key == 'select_rule':
+                    df_transformed = self._applySelect(df_transformed, value)
+                elif key == 'order_rule':
+                    print("unsupported for now")
+                else:
+                    vari = 0
 
-        """
-        # Apply the order here
+        self.rows_added = df_transformed.count()
+
+        return df_transformed
+
+"""
+        # OLD
         for transformation in transformation_rules:
             #if transformation.
             df = self._applyFilters(df, self.transformDefinition.getFilterRules())
@@ -101,25 +121,24 @@ class DataFrameHandler:
             df = self._applyDeduplication(df, self.transformDefinition.getDedupeRules(), True)
             df = self._applyAggregation(df, self.transformDefinition.getAggregateRules())
             df = self._applySelect(df, self.transformDefinition.getSelectedRules())
-        """    
 
-        # Apply transformation rules in order
-        for rule in transformation_rules["transformation_rules"]:
-            for key, value in rule.items():
-                if key == 'filter_rule':
-                    df = self._applyFilters(df, value)
-                elif key == 'conversion_rule':
-                    df = self._applyConversions(df, value)
-                elif key == 'dedupe_rule':
-                    df = self._applyDeduplication(df, value)
-                elif key == 'aggregation_rule':
-                    df = self._applyAggregation(df, value)
-                elif key == 'select_rule':
-                    df = self._applySelect(df, value)
-                elif key == 'order_rule':
-                    print("unsupported for now")
 
-        self.rows_added = df.count()
+match lang:
+    case "JavaScript":
+        print("You can become a web developer.")
 
-        return df
+    case "Python":
+        print("You can become a Data Scientist")
+
+    case "PHP":
+        print("You can become a backend developer")
     
+    case "Solidity":
+        print("You can become a Blockchain developer")
+
+    case "Java":
+        print("You can become a mobile app developer")
+    case _:
+        print("The language doesn't matter, what matters is solving problems.")
+
+"""
