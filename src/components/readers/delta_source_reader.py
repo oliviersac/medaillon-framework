@@ -4,7 +4,7 @@ class DeltaReader:
         SELECT 
             *
         FROM 
-            {origin_full_table_name}
+            {origin_table_name}
         WHERE 
             processing_time > (
             SELECT CASE 
