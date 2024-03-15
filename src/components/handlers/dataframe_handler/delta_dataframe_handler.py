@@ -23,8 +23,8 @@ class DataFrameHandler:
 
     """
 
-    def __init__(self, spark, transformDefinition):
-        self.spark = spark
+    def __init__(self, transformDefinition):
+
         self.transformDefinition = transformDefinition
         self.rows_received = 0   
         self.rows_filtered = 0
