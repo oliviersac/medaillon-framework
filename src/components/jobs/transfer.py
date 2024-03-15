@@ -20,13 +20,8 @@ def main(parameters):
 
     # Dynamically import the transform definition and assign it to the transformer
     module = importlib.import_module(transform_definiton_path)
-
-    print(transform_definiton_path)
-    print(module)
-    type(module)
-
-    transfer_rules = module.TransformDefinition.getTransformationRules()
-    transformer = DataFrameHandler(transfer_rules)
+    transformDefinition = module.TransformDefinition
+    transformer = DataFrameHandler(transformDefinition)
 
     # Pull data from source table and transform it
     source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
