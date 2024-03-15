@@ -15,7 +15,8 @@ def main(parameters):
     origin_table_name = parameters.get("-origin_table_name")
     destination_table_name = parameters.get("-destination_table_name")
     log_table_name = parameters.get("-log_table_name")
-    transform_definiton_path = parameters.get("-transform_definiton_path")    
+    transform_definiton_path = parameters.get("-transform_definiton_path")
+    write_mode = parameters.get("-write_mode")
 
     # Dynamically import the transform definition and assign it to the transformer
     module = importlib.import_module(transform_definiton_path)
@@ -39,7 +40,7 @@ def main(parameters):
     try:
         transfer_status = 'SUCCESS'
         failed_reason = ''
-        final_df.write.mode("append").saveAsTable(destination_table_name)
+        final_df.write.mode(write_mode).saveAsTable(destination_table_name)
     except Exception as e:
         rows_added = 0
         rows_deduped = 0
