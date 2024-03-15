@@ -23,6 +23,7 @@ def main(parameters):
 
     print(transform_definiton_path)
     print(module)
+    type(module)
 
     transfer_rules = module.TransformDefinition.getTransformationRules()
     transformer = DataFrameHandler(transfer_rules)
