@@ -1,5 +1,3 @@
-from pyspark.sql.functions import col, when, max as spark_max
-
 import sys
 sys.path.append('../')
 
@@ -7,7 +5,6 @@ import importlib
 from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
 from readers.delta_source_reader import DeltaReader
 from handlers.parameters_handler.argument_parser import ArgumentParser
-#from pipelines.silver.stocks_transformation_rules import TransformDefinition
 from writers.transfer_log_writer import TransferLogWriter
 
 def main(parameters):

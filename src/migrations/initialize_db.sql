@@ -1,6 +1,8 @@
 DROP TABLE IF EXISTS dev.dev_activity_log.transfer_log;
 DROP TABLE IF EXISTS dev.dev_silver.stocks;
 
+
+-- Transfer log table
 CREATE TABLE IF NOT EXISTS dev.dev_activity_log.transfer_log(
     origin_type varchar(255) COMMENT 'The type of the origin (S3, delta_table, source)',
     origin_name varchar(255) COMMENT 'The name of the origin (dev_bronze, dev_silver, dev-landing)',
@@ -18,6 +20,7 @@ CREATE TABLE IF NOT EXISTS dev.dev_activity_log.transfer_log(
     failed_reason varchar(1000) COMMENT 'The reason why the transfer failed'
 );
 
+-- Silver Stocks
 create table dev.dev_silver.stocks(
     Idstock	int,
     Symbol	string,
@@ -79,4 +82,12 @@ create table dev.dev_silver.stocks(
     _rescued_data	string,
     source_file	string,
     processing_time	timestamp
+)
+
+
+-- Top 50 highest price stocks (for gold)
+create table dev.dev_gold.stocks_top50_highest_price(
+    Idstock	int,
+    Symbol	string,
+    Bid	float
 )
