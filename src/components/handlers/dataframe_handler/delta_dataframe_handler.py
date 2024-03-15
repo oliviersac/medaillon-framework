@@ -89,11 +89,36 @@ class DataFrameHandler:
     # Apply transformations
     def transformData(self, df):
         self.rows_received = df.count()
-        df = self._applyFilters(df, self.transformDefinition.getFilterRules())
-        df = self._applyConversions(df, self.transformDefinition.getConversionRules())
-        df = self._applyDeduplication(df, self.transformDefinition.getDedupeRules(), True)
-        df = self._applyAggregation(df, self.transformDefinition.getAggregateRules())
-        df = self._applySelect(df, self.transformDefinition.getSelectedRules())
+        transformation_rules = self.transformDefinition.getTransformationRules()
+
+
+        """
+        # Apply the order here
+        for transformation in transformation_rules:
+            #if transformation.
+            df = self._applyFilters(df, self.transformDefinition.getFilterRules())
+            df = self._applyConversions(df, self.transformDefinition.getConversionRules())
+            df = self._applyDeduplication(df, self.transformDefinition.getDedupeRules(), True)
+            df = self._applyAggregation(df, self.transformDefinition.getAggregateRules())
+            df = self._applySelect(df, self.transformDefinition.getSelectedRules())
+        """    
+
+        # Apply transformation rules in order
+        for rule in transformation_rules["transformation_rules"]:
+            for key, value in rule.items():
+                if key == 'filter_rule':
+                    df = self._applyFilters(df, value)
+                elif key == 'conversion_rule':
+                    df = self._applyConversions(df, value)
+                elif key == 'dedupe_rule':
+                    df = self._applyDeduplication(df, value)
+                elif key == 'aggregation_rule':
+                    df = self._applyAggregation(df, value)
+                elif key == 'select_rule':
+                    df = self._applySelect(df, value)
+                elif key == 'order_rule':
+                    print("unsupported for now")
+
         self.rows_added = df.count()
 
         return df
