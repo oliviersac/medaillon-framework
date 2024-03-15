@@ -1,42 +1,43 @@
-# datalake-test
+# Databricks Datalake Framework
+
 
 ## Description
 
 This service handles data ingestion and data transformations based on the medaillon architecture for Data-Lakes. 
 
-## Local Setup
-Local setup is not defined yet
+## Architecture
+This project is following the medaillon architecture. You can access more details and documentation by following this link
+[Medaillon Architecure Documentation](doc/sections/medaillon_architecture/main.md)
+
+## Documentation Sections
+
+#### Getting Started:
+- [AWS Setup](doc/sections/aws_setup/main.md)
+- Databricks Configuration
+- Local Setup
+
+#### Architecture:
+- [Main Architecure](doc/sections/medaillon_architecture/main.md)
+- [Architectural Components](doc/sections/main_components/main.md)
+
+#### How to:
+- [Creating a new pipeline](doc/sections/creating_pipelines/main.md)
+- [Creating and running tests](doc/sections/automated_testing/main.md)
+- [Delete duplicates in a delta table](doc/sections/debug_remove_dupes.md/main.md)
 
 
-## Main Components
 
-### Handlers
-Handlers are managing data transformations on dataframes and other types of conversions. In most pipelines, the handlers will filter data or dedupe data. Basically the responsibility of a handler is to modify data.
 
-### Pipelines
-The pipelines are basically just defined by the transformation that needs to be done. For instance, between bronze and silver, there is a need for data filtering and deduplication. The filtering rules and de deduplication rules are defined in a pipeline component
+## Components
+Components are essential parts of the execution of data pipelines. They are involved in any data movement from origin to destination involving data transformations. Finaly, components are involved in the orchestration of the different steps required for a full pipeline.
 
-### Readers
-
-### Writers
-
-## How to create a Data Pipeline from an S3 Event Bucket
-
-### 1. Define the Schema with the stakeholders
-This is done by bla
-
-### 2. Identify the source for pulling the data
-This is done by bla
-
-### 3. Define the transformations needed between bronze and silver
-This is done by bla
-
-### 4. Define the transformations needed between silver and gold
-This is done by bla
-
-### 5. Create a job for the full workflow
-This is done by bla
-
+[More information on the components section](doc/sections/main_components/main.md)
 
 
 ## How Medaillon Architecture is managed
+
+
+
+
+## Local Setup
+Local setup is not defined yet
