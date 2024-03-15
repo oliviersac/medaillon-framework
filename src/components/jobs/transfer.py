@@ -2,10 +2,12 @@ from pyspark.sql.functions import col, when, max as spark_max
 
 import sys
 sys.path.append('../')
+
+import importlib
 from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
 from readers.delta_source_reader import DeltaReader
 from handlers.parameters_handler.argument_parser import ArgumentParser
-from pipelines.silver.stocks_transformation_rules import TransformDefinition
+#from pipelines.silver.stocks_transformation_rules import TransformDefinition
 from writers.transfer_log_writer import TransferLogWriter
 
 def main(parameters):
@@ -13,7 +15,12 @@ def main(parameters):
     origin_table_name = parameters.get("-origin_table_name")
     destination_table_name = parameters.get("-destination_table_name")
     log_table_name = parameters.get("-log_table_name")
-    transformer = DataFrameHandler(TransformDefinition)
+    transform_definiton_path = parameters.get("-transform_definiton_path")    
+
+    # Dynamically import the transform definition and assign it to the transformer
+    module = importlib.import_module(transform_definiton_path)
+    transfer_rules = module.TransformDefinition.getTransformationRules()
+    transformer = DataFrameHandler(transfer_rules)
 
     # Pull data from source table and transform it
     source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
