@@ -54,7 +54,9 @@ class TransformDefinition:
     # Build the transformation Pipeline. Order is important
     def getTransformationRules():
         return {
-            {"filter_rule" : TransformDefinition.getFilterRules()},
-            {"conversion_rule": TransformDefinition.getConversionRules()},
-            {"dedupe_rule": TransformDefinition.getDedupeRules()}
+            "transformation_rules" : [
+                {"filter_rule" : TransformDefinition.getFilterRules()},
+                {"conversion_rule": TransformDefinition.getConversionRules()},
+                {"dedupe_rule": TransformDefinition.getDedupeRules()}
+            ]
         }
