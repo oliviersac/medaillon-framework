@@ -32,7 +32,7 @@ class TransformDefinition:
             {"column": "Name", "operator": "<>", "value": ''}
         ]
 
-    def getConversionRules():
+    def getConversionRules() :
         return {
             "LastTradeTime": lambda x: when(x != "", x.cast("string")).otherwise(None),
             "LastTradeDate": lambda x: when(x != "", x.cast("string")).otherwise(None),
@@ -51,3 +51,10 @@ class TransformDefinition:
     def getSelectedRules():
         return None
     
+    # Build the transformation Pipeline. Order is important
+    def getTransformationRules():
+        return {
+            {"filter_rule" : TransformDefinition.getFilterRules()},
+            {"conversion_rule": TransformDefinition.getConversionRules()},
+            {"dedupe_rule": TransformDefinition.getDedupeRules()}
+        }
