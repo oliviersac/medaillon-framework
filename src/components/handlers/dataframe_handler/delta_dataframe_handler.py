@@ -99,6 +99,9 @@ class DataFrameHandler:
         # Apply orderBy expressions to DataFrame
         sorted_df = df.orderBy(*orderBy_exprs)
         return sorted_df
+    
+    def _applyLimit(self, df, limit_rules):
+        return df.limit(limit_rules)
 
     # Apply transformations
     def transformData(self, df_origin, df_destination):
@@ -121,6 +124,8 @@ class DataFrameHandler:
                     df_transformed = self._applySelect(df_transformed, value)
                 elif key == 'order_rule':
                     df_transformed = self._applyOrder(df_transformed, value)
+                elif key == 'limit_rule':
+                    df_transformed = self._applyLimit(df_transformed, value)
                 else:
                     vari = 0
 
