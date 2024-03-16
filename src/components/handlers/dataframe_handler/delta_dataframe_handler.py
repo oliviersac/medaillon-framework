@@ -1,4 +1,5 @@
 from pyspark.sql.functions import col
+from pyspark.sql import functions as F
 
 class DataFrameHandler:   
     """Brief description of MyClass.
