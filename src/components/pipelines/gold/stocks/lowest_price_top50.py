@@ -23,43 +23,45 @@ class TransformDefinition:
 
     """
 
-    def _getJoinRules():
+    def _getJoinRule():
         return None
 
     def _getFilterRule():
         return [
-            {"column": "IdStock", "operator": ">", "value": 0},
-            {"column": "Name", "operator": "<>", "value": ''}
+            {"column": "IdStock", "operator": ">", "value": 0}
         ]
 
     def _getConversionRule() :
-        return {
-            "LastTradeTime": lambda x: when(x != "", x.cast("string")).otherwise(None),
-            "LastTradeDate": lambda x: when(x != "", x.cast("string")).otherwise(None),
-            "Insertdatetime": lambda x: when(x != "", x.cast("string")).otherwise(None),
-            "Lastupdatetime": lambda x: when(x != "", x.cast("string")).otherwise(None)
-        }
+        return None
     
     def _getDedupeRule():
-        # The columns must not be null
-        # The column must not have been converted
-        return ["IdStock", "Symbol"]
+        return None
     
     def _getAggregateRule():
+        # Working here
         return None
     
-    def _getSelectedRule():
-        return None
+    def _getSelectRule():
+        return [
+            "Bid","IdStock", "Symbol"
+        ]
     
     def _getOrderRule():
-        return None
+        return [
+            {"Bid": "asc"},
+            {"IdStock": "asc"}
+        ]
+    
+    def _getLimitRule():
+        return 50
     
     # Build the transformation Pipeline. Order is important
     def getTransformationRules():
         return {
             "transformation_rules" : [
-                {"filter_rule" : TransformDefinition._getFilterRule()},
-                {"conversion_rule": TransformDefinition._getConversionRule()},
-                {"dedupe_rule": TransformDefinition._getDedupeRule()}
+                {"filter_rule": TransformDefinition._getFilterRule()},
+                {"select_rule": TransformDefinition._getSelectRule()},
+                {"order_rule": TransformDefinition._getOrderRule()},
+                {"limit_rule": TransformDefinition._getLimitRule()}
             ]
         } 
