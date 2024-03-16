@@ -47,7 +47,7 @@ class TransformDefinition:
     def _getOrderRule():
         return [
             {"Bid": "desc"},
-            {"IdStock", "asc"}
+            {"IdStock": "asc"}
         ]
     
     def _getLimitRule():
