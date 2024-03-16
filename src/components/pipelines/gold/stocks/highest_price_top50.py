@@ -59,6 +59,6 @@ class TransformDefinition:
             "transformation_rules" : [
                 {"select_rule": TransformDefinition._getSelectRule()},
                 {"order_rule": TransformDefinition._getOrderRule()},
-                {"limit_rule": TransformDefinition._getDedupeRule()}
+                {"limit_rule": TransformDefinition._getLimitRule()}
             ]
         } 
