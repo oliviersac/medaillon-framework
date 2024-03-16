@@ -40,10 +40,15 @@ class TransformDefinition:
         return None
     
     def _getSelectRule():
-        return ["IdStock", "Symbol"]
+        return [
+            "Bid","IdStock", "Symbol"
+        ]
     
     def _getOrderRule():
-        return None
+        return [
+            {"Bid": "desc"},
+            {"IdStock", "asc"}
+        ]
     
     def _getLimitRule():
         return 50

@@ -82,7 +82,7 @@ create table dev.dev_silver.stocks(
     _rescued_data	string,
     source_file	string,
     processing_time	timestamp
-)
+);
 
 
 -- Top 50 highest price stocks (for gold)
@@ -90,4 +90,4 @@ create table dev.dev_gold.stocks_top50_highest_price(
     Idstock	int,
     Symbol	string,
     Bid	float
-)
+);
