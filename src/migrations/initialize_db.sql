@@ -91,3 +91,10 @@ create table dev.dev_gold.stocks_top50_highest_price(
     Symbol	string,
     Bid	float
 );
+
+-- Top 50 lowest price stocks (for gold)
+create table dev.dev_gold.stocks_top50_lowest_price(
+    Idstock	int,
+    Symbol	string,
+    Bid	float
+);
