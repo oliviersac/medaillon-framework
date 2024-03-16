@@ -1,4 +1,5 @@
 from pyspark.sql.functions import col
+from pyspark.sql import functions as F
 
 class DataFrameHandler:   
     """Brief description of MyClass.
@@ -36,11 +37,13 @@ class DataFrameHandler:
         df_count = df.count()
         filters = []
 
+        # Build condition
         for rule in filter_rules:
             filter_expr = f"{rule['column']} {rule['operator']} '{rule['value']}'"
             filters.append(filter_expr)
         condition = " AND ".join(filters)
 
+        # Apply filter
         df_filtered = df.filter(condition)
         self.rows_filtered = df_count - df_filtered.count()
 
@@ -81,8 +84,24 @@ class DataFrameHandler:
         return df
     
     # Rename and select wanted columns
-    def _applySelect(self, df, selected_columns):
-        return df
+    def _applySelect(self, df, select_rules):
+        return df.select(select_rules)
+    
+    def _applyOrder(self, df, sort_rules):
+        # Create an empty list to store orderBy expressions
+        orderBy_exprs = []
+        # Iterate over each sorting rule
+        for rule in sort_rules:
+            # Extract column name and sorting order
+            column_name, sorting_order = list(rule.items())[0]
+            # Add orderBy expression to the list
+            orderBy_exprs.append(F.col(column_name).desc() if sorting_order == "desc" else F.col(column_name).asc())
+        # Apply orderBy expressions to DataFrame
+        sorted_df = df.orderBy(*orderBy_exprs)
+        return sorted_df
+    
+    def _applyLimit(self, df, limit_rules):
+        return df.limit(limit_rules)
 
     # Apply transformations
     def transformData(self, df_origin, df_destination):
@@ -104,7 +123,9 @@ class DataFrameHandler:
                 elif key == 'select_rule':
                     df_transformed = self._applySelect(df_transformed, value)
                 elif key == 'order_rule':
-                    print("unsupported for now")
+                    df_transformed = self._applyOrder(df_transformed, value)
+                elif key == 'limit_rule':
+                    df_transformed = self._applyLimit(df_transformed, value)
                 else:
                     vari = 0
 
