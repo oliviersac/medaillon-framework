@@ -42,7 +42,7 @@ class TransformDefinition:
     
     def _getSelectRule():
         return [
-            "Bid","IdStock", "Symbol"
+            "Bid", "IdStock", "Symbol"
         ]
     
     def _getOrderRule():
