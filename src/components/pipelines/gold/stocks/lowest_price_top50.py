@@ -27,8 +27,8 @@ class TransformDefinition:
         return None
 
     def _getFilterRule():
-        return [
-            {"column": "IdStock", "operator": ">", "value": 0}
+        return [            
+            {"column": "Bid", "operator": ">", "value": 0}
         ]
 
     def _getConversionRule() :
@@ -38,7 +38,6 @@ class TransformDefinition:
         return None
     
     def _getAggregateRule():
-        # Working here
         return None
     
     def _getSelectRule():

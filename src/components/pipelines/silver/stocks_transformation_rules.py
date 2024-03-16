@@ -27,7 +27,7 @@ class TransformDefinition:
         return None
 
     def _getFilterRule():
-        return [
+        return [            
             {"column": "IdStock", "operator": ">", "value": 0},
             {"column": "Name", "operator": "<>", "value": ''}
         ]

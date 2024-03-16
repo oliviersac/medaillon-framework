@@ -36,7 +36,6 @@ class TransformDefinition:
         return None
     
     def _getAggregateRule():
-        # Working here
         return None
     
     def _getSelectRule():
