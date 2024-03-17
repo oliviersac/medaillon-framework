@@ -112,44 +112,24 @@ class DataFrameHandler:
         # Apply transformation rules in order
         for rule in transformation_rules["transformation_rules"]:
             for key, value in rule.items():
-                if key == 'filter_rule':
-                    df_transformed = self._applyFilters(df_transformed, value)
-                elif key == 'conversion_rule':
-                    df_transformed = self._applyConversions(df_transformed, value)
-                elif key == 'dedupe_rule':
-                    df_transformed = self._applyDeduplication(df_transformed, df_destination, value)
-                elif key == 'aggregation_rule':
-                    df_transformed = self._applyAggregation(df_transformed, value)
-                elif key == 'select_rule':
-                    df_transformed = self._applySelect(df_transformed, value)
-                elif key == 'order_rule':
-                    df_transformed = self._applyOrder(df_transformed, value)
-                elif key == 'limit_rule':
-                    df_transformed = self._applyLimit(df_transformed, value)
-                else:
-                    vari = 0
+                match key:
+                    case "filter_rule":
+                        df_transformed = self._applyFilters(df_transformed, value)
+                    case "conversion_rule":
+                        df_transformed = self._applyConversions(df_transformed, value)
+                    case "dedupe_rule":
+                        df_transformed = self._applyDeduplication(df_transformed, df_destination, value)
+                    case "aggregation_rule":
+                        df_transformed = self._applyAggregation(df_transformed, value)
+                    case "select_rule":
+                        df_transformed = self._applySelect(df_transformed, value)
+                    case "order_rule":
+                        df_transformed = self._applyOrder(df_transformed, value)
+                    case "limit_rule":
+                        df_transformed = self._applyLimit(df_transformed, value)
+                    case _:
+                        df_transformed = df_transformed
 
         self.rows_added = df_transformed.count()
 
         return df_transformed
-
-"""
-match lang:
-    case "JavaScript":
-        print("You can become a web developer.")
-
-    case "Python":
-        print("You can become a Data Scientist")
-
-    case "PHP":
-        print("You can become a backend developer")
-    
-    case "Solidity":
-        print("You can become a Blockchain developer")
-
-    case "Java":
-        print("You can become a mobile app developer")
-    case _:
-        print("The language doesn't matter, what matters is solving problems.")
-
-"""
