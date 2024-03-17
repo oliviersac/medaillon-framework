@@ -1,6 +1,10 @@
 import unittest
 from pyspark.sql import SparkSession
-from your_module import DataFrameHandler  # Update this with the correct import path
+
+import sys
+sys.path.append('../')
+
+from components.handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler  # Update this with the correct import path
 
 class TestDataFrameHandler(unittest.TestCase):
 
