@@ -1,43 +1,63 @@
 import unittest
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col
-from my_module import DataFrameHandler  # Replace 'my_module' with the actual module name
+
+import sys
+sys.path.append('../')
+
+from components.handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler  # Update this with the correct import path
 
 class TestDataFrameHandler(unittest.TestCase):
+
     @classmethod
     def setUpClass(cls):
-        # Initialize Spark session for testing
+        # Initialize SparkSession
         cls.spark = SparkSession.builder \
-            .appName("test_app") \
-            .master("local[2]") \
+            .appName("TestDataFrameHandler") \
             .getOrCreate()
 
     @classmethod
     def tearDownClass(cls):
-        # Stop Spark session after testing
+        # Stop SparkSession
         cls.spark.stop()
 
-    def setUp(self):
-        # Create an instance of DataFrameHandler for testing
-        self.handler = DataFrameHandler(self.spark, transformDefinition)
+    def test_applyFilters(self):
+        # Create test DataFrame
+        data = [("A", 10), ("B", 20), ("C", 15), ("A", 30)]
+        columns = ["IdStock", "Bid"]
+        df = self.spark.createDataFrame(data, columns)
+        
+        # Define filter rules
+        filter_rules = [{"column": "IdStock", "operator": ">", "value": 0}]
 
-    def tearDown(self):
-        # Clean up any resources used in tests
-        pass
-
-    def test_apply_filters(self):
-        # Define test DataFrame
-        df = self.spark.createDataFrame([(1, 'A'), (2, 'B'), (3, 'C')], ["id", "value"])
-        filter_rules = [{"column": "id", "operator": ">", "value": 1}]
+        # Instantiate DataFrameHandler
+        handler = DataFrameHandler()
 
         # Apply filters
-        filtered_df = self.handler._applyFilters(df, filter_rules)
+        filtered_df = handler._applyFilters(df, filter_rules)
 
-        # Assert that the filtered DataFrame has expected number of rows
-        self.assertEqual(filtered_df.count(), 2)
+        # Assert the expected count of rows
+        self.assertEqual(filtered_df.count(), 3)
 
-    # Add more test methods for other methods in DataFrameHandler class
+    # Similarly, write tests for other methods such as _applyConversions, _applyDeduplication, etc.
+    def test_transformData(self):
+        # Create test DataFrames
+        data_origin = [("A", 10), ("B", 20), ("C", 15), ("A", 30)]
+        columns_origin = ["IdStock", "Bid"]
+        df_origin = self.spark.createDataFrame(data_origin, columns_origin)
 
+        data_destination = [("A", 10), ("B", 20)]
+        columns_destination = ["IdStock", "Bid"]
+        df_destination = self.spark.createDataFrame(data_destination, columns_destination)
+        
+        # Define transformation rules
+        transform_definition = YourTransformDefinition()  # Replace this with your actual transform definition
+        handler = DataFrameHandler(transform_definition)
+
+        # Transform data
+        transformed_df = handler.transformData(df_origin, df_destination)
+
+        # Assert the expected count of rows
+        self.assertEqual(transformed_df.count(), 2)
 
 if __name__ == '__main__':
     unittest.main()

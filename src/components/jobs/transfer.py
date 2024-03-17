@@ -47,7 +47,7 @@ def main(parameters):
 
     # Insert a new transfer log entry
     log_writer = TransferLogWriter(spark)
-    log_writer.writeTransferLog('delta', 'dev-bronze', 'dev.dev_bronze.stocks', 'delta-bronze', 'dev-silver', destination_table_name, '', 
+    log_writer.writeTransferLog('delta', 'dev-bronze', origin_table_name, 'delta', 'dev-silver', destination_table_name, '', 
                                 rows_received, rows_filtered, 
                                 rows_deduped, rows_added, transfer_status, failed_reason)
     
