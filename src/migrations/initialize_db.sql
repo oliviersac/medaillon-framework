@@ -98,3 +98,11 @@ create table dev.dev_gold.stocks_top50_lowest_price(
     Symbol	string,
     Bid	float
 );
+
+-- daily_bid_stats (for gold)
+create table dev.dev_gold.daily_bid_stats(
+    AverageBid	float,
+    MinimumBid	float,
+    CountStocks	float,
+    VarianceBid float,
+);

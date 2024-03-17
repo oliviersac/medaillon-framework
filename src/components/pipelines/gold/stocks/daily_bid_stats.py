@@ -44,7 +44,8 @@ class TransformDefinition:
                 {"avg","bid", "AverageBid"},
                 {"min", "bid", "MinimumBid"},
                 {"max", "bid", "MaximumBid"},
-                {"count", "*", "CountStocks"}
+                {"count", "*", "CountStocks"},
+                {"variance", "bid", "VarianceBid"}
             ]
         }
     
@@ -65,7 +66,6 @@ class TransformDefinition:
             "transformation_rules" : [
                 {"filter_rule": TransformDefinition._getFilterRule()},
                 {"select_rule": TransformDefinition._getSelectRule()},
-                {"order_rule": TransformDefinition._getOrderRule()},
-                {"limit_rule": TransformDefinition._getLimitRule()}
+                {"aggregation_rule": TransformDefinition._getAggregateRule()}
             ]
         } 

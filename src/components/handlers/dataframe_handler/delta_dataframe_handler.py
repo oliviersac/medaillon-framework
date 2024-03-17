@@ -1,4 +1,4 @@
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, avg, min, max, count, variance
 from pyspark.sql import functions as F
 
 class DataFrameHandler:   
@@ -81,7 +81,38 @@ class DataFrameHandler:
     
     # Aggregate to a new column
     def _applyAggregation(self, df, aggregation_rules):
-        return df
+        # Extract group by column
+        group_by_column = aggregation_rules.get("group_by", None)
+
+        # Start with an empty dictionary to store aggregation expressions
+        aggregation_exprs = {}
+
+        # Iterate over each aggregation specified in the rule
+        for aggregation in aggregation_rules.get("aggregations", []):
+            # Extract aggregation function, column, and alias
+            agg_func, column, alias = aggregation
+
+            # Add aggregation expression to the dictionary
+            if agg_func == "avg":
+                aggregation_exprs[alias] = avg(column).alias(alias)
+            elif agg_func == "min":
+                aggregation_exprs[alias] = min(column).alias(alias)
+            elif agg_func == "max":
+                aggregation_exprs[alias] = max(column).alias(alias)
+            elif agg_func == "count":
+                aggregation_exprs[alias] = count(column).alias(alias)
+            elif agg_func == "variance":
+                aggregation_exprs[alias] = variance(column).alias(alias)
+            # Add more elif conditions for other aggregation functions as needed
+
+        # Apply group by if specified
+        if group_by_column:
+            df_grouped = df.groupBy(group_by_column).agg(aggregation_exprs)
+        else:
+            # If no group by column specified, apply aggregation directly
+            df_grouped = df.agg(aggregation_exprs)
+
+        return df_grouped
     
     # Rename and select wanted columns
     def _applySelect(self, df, select_rules):
