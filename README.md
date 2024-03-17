@@ -24,6 +24,7 @@ This project is following the medaillon architecture. You can access more detail
 - [Creating a new pipeline](doc/sections/creating_pipelines/main.md)
 - [Creating and running tests](doc/sections/automated_testing/main.md)
 - [Delete duplicates in a delta table](doc/sections/debug_remove_dupes.md/main.md)
+- [Setup Spark Locally](doc/sections/local_setup/main.md)
 
 
 
