@@ -31,8 +31,13 @@ class TransformDefinition:
             {"column": "Bid", "operator": ">", "value": 0}
         ]
 
-    def _getConversionRule() :
-        return None
+    def _getConversionRule():
+        return {
+            "AverageBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
+            "MinimumBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
+            "MaximumBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
+            "VarianceBid": lambda x: when(x != "", x.cast("float")).otherwise(None)
+        }
     
     def _getDedupeRule():
         return None
@@ -78,6 +83,7 @@ class TransformDefinition:
             "transformation_rules" : [
                 {"filter_rule": TransformDefinition._getFilterRule()},
                 {"select_rule": TransformDefinition._getSelectRule()},
-                {"sql_rule": TransformDefinition._sqlRule()}
+                {"sql_rule": TransformDefinition._sqlRule()},
+                {"conversion_rule": TransformDefinition._getConversionRule()}
             ]
         } 

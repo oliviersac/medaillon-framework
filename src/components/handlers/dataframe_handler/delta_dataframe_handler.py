@@ -160,6 +160,7 @@ class DataFrameHandler:
                         df_transformed = self._applyLimit(df_transformed, value)
                     case "sql_rule":
                         df_transformed.createOrReplaceTempView("stock_data")
+                        value = value.replace("\n", " ").strip()
                         df_transformed = spark.sql(value)
                     case _:
                         df_transformed = df_transformed
