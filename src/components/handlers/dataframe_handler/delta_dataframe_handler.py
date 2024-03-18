@@ -135,7 +135,7 @@ class DataFrameHandler:
         return df.limit(limit_rules)
 
     # Apply transformations
-    def transformData(self, df_origin, df_destination):
+    def transformData(self, spark, df_origin, df_destination):
         self.rows_received = df_origin.count()
         transformation_rules = self.transformDefinition.getTransformationRules()
         df_transformed = df_origin
@@ -160,7 +160,7 @@ class DataFrameHandler:
                         df_transformed = self._applyLimit(df_transformed, value)
                     case "sql_rule":
                         df_transformed.createOrReplaceTempView("stock_data")
-                        df_transformed = spark.sql(value)
+                        df_transformed = self.spark.sql(value)
                     case _:
                         df_transformed = df_transformed
 
