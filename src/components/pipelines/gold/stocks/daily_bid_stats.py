@@ -36,7 +36,8 @@ class TransformDefinition:
             "AverageBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
             "MinimumBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
             "MaximumBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
-            "VarianceBid": lambda x: when(x != "", x.cast("float")).otherwise(None)
+            "VarianceBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
+            "CountStocks": lambda x: when(x != "", x.cast("float")).otherwise(None)
         }
     
     def _getDedupeRule():
