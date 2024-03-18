@@ -1,4 +1,5 @@
 from pyspark.sql.functions import col, when
+from pyspark.sql.types import DoubleType
 
 class TransformDefinition:
     """Brief description of MyClass.
@@ -33,11 +34,11 @@ class TransformDefinition:
 
     def _getConversionRule():
         return {
-            "AverageBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
-            "MinimumBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
-            "MaximumBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
-            "VarianceBid": lambda x: when(x != "", x.cast("float")).otherwise(None),
-            "CountStocks": lambda x: when(x != "", x.cast("float")).otherwise(None)
+            "AverageBid": lambda x: when(x != "", x.cast(DoubleType())).otherwise(None),
+            "MinimumBid": lambda x: when(x != "", x.cast(DoubleType())).otherwise(None),
+            "MaximumBid": lambda x: when(x != "", x.cast(DoubleType())).otherwise(None),
+            "VarianceBid": lambda x: when(x != "", x.cast(DoubleType())).otherwise(None),
+            "CountStocks": lambda x: when(x != "", x.cast(DoubleType())).otherwise(None)
         }
     
     def _getDedupeRule():
