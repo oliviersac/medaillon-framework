@@ -41,13 +41,25 @@ class TransformDefinition:
         return {
             "group_by": None,
             "aggregations":[
-                {"avg","bid", "AverageBid"},
-                {"min", "bid", "MinimumBid"},
-                {"max", "bid", "MaximumBid"},
-                {"count", "*", "CountStocks"},
-                {"variance", "bid", "VarianceBid"}
+                ["avg", "bid", "AverageBid"],
+                ["min", "bid", "MinimumBid"],
+                ["max", "bid", "MaximumBid"],
+                ["count", "*", "CountStocks"],
+                ["variance", "bid", "VarianceBid"]
             ]
         }
+    
+    def _sqlRule():
+        return  """
+            SELECT
+                AVG(Bid) AS AverageBid,
+                MIN(Bid) AS MinimumBid,
+                MAX(Bid) AS MaximumBid,
+                COUNT(*) AS CountStocks,
+                VARIANCE(Bid) AS VarianceBid
+            FROM
+                stock_data
+        """
     
     def _getSelectRule():
         return [
@@ -66,6 +78,6 @@ class TransformDefinition:
             "transformation_rules" : [
                 {"filter_rule": TransformDefinition._getFilterRule()},
                 {"select_rule": TransformDefinition._getSelectRule()},
-                {"aggregation_rule": TransformDefinition._getAggregateRule()}
+                {"sql_rule": TransformDefinition._sqlRule()}
             ]
         } 
