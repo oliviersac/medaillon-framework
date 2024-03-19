@@ -24,7 +24,7 @@ class Autoloader:
         batch_df.write.mode(self.write_mode).saveAsTable(self.destination_table_name)
 
 
-    def autoload_to_table(self, spark, file_path: StringType,destination_table_name: StringType,checkpoint_path: StringType):
+    def autoload_to_table(self, spark, file_path: StringType, destination_table_name: StringType, checkpoint_path: StringType):
         # Set the schema for the data to stream
         spark_schema = self.spark_schema
 
@@ -41,12 +41,6 @@ class Autoloader:
             "cloudFiles.maxBytesPerTrigger": "10g"
         }
 
-        # Defining the write stream options for saving the data
-        writestream_options = {
-            "checkpointLocation" : checkpoint_path,
-            "mergeSchema": "true" # Merging the new schema with the existing one automatically 
-        }
-
         # Obtaining data from spark readstream
         streamingDF = (spark.readStream
             .format("cloudFiles")
@@ -54,9 +48,14 @@ class Autoloader:
             .schema(spark_schema)
             .load(file_path)
             .select("*", col("_metadata.file_path").alias("source_file"), current_timestamp().alias("processing_time")))
-
-        # Can we merge the data instead of just writing
-        (streamingDF.writeStream
-            .options(**writestream_options)  
-            .trigger(availableNow=True)
-            .toTable(f"{destination_table_name}", self.write_mode))
+        
+        # Apply processing to each batch of the streaming dataframe
+        query = (streamingDF
+                 .writeStream
+                 .foreachBatch(self.process_batch)
+                 .outputMode("append")
+                 .option("checkpointLocation", checkpoint_path)
+                 .start())
+        
+        # Await termination
+        query.awaitTermination()
