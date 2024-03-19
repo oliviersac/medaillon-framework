@@ -1,4 +1,6 @@
 from pyspark.sql.functions import col, when
+from pyspark.sql.types import DoubleType
+from pyspark.sql.types import FloatType
 
 class TransformDefinition:
     """Brief description of MyClass.
@@ -31,8 +33,14 @@ class TransformDefinition:
             {"column": "Bid", "operator": ">", "value": 0}
         ]
 
-    def _getConversionRule() :
-        return None
+    def _getConversionRule():
+        return {
+            "AverageBid": FloatType(),
+            "MinimumBid": FloatType(),
+            "MaximumBid": FloatType(),
+            "VarianceBid": FloatType(),
+            "CountStocks": FloatType()
+        }
     
     def _getDedupeRule():
         return None
@@ -41,12 +49,25 @@ class TransformDefinition:
         return {
             "group_by": None,
             "aggregations":[
-                {"avg","bid", "AverageBid"},
-                {"min", "bid", "MinimumBid"},
-                {"max", "bid", "MaximumBid"},
-                {"count", "*", "CountStocks"}
+                ["avg", "bid", "AverageBid"],
+                ["min", "bid", "MinimumBid"],
+                ["max", "bid", "MaximumBid"],
+                ["count", "*", "CountStocks"],
+                ["variance", "bid", "VarianceBid"]
             ]
         }
+    
+    def _sqlRule():
+        return  """
+            SELECT
+                AVG(Bid) AS AverageBid,
+                MIN(Bid) AS MinimumBid,
+                MAX(Bid) AS MaximumBid,
+                COUNT(*) AS CountStocks,
+                VARIANCE(Bid) AS VarianceBid
+            FROM
+                stock_data
+        """
     
     def _getSelectRule():
         return [
@@ -65,7 +86,7 @@ class TransformDefinition:
             "transformation_rules" : [
                 {"filter_rule": TransformDefinition._getFilterRule()},
                 {"select_rule": TransformDefinition._getSelectRule()},
-                {"order_rule": TransformDefinition._getOrderRule()},
-                {"limit_rule": TransformDefinition._getLimitRule()}
+                {"sql_rule": TransformDefinition._sqlRule()},
+                {"conversion_rule": TransformDefinition._getConversionRule()}
             ]
         } 

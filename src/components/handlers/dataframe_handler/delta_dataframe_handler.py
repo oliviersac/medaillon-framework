@@ -1,4 +1,4 @@
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, avg, min, max, count, variance
 from pyspark.sql import functions as F
 
 class DataFrameHandler:   
@@ -51,8 +51,8 @@ class DataFrameHandler:
 
     # Convert column format 
     def _applyConversions(self, df, conversion_rules):
-        for column, conversion_func in conversion_rules.items():
-            df = df.withColumn(column, conversion_func(col(column)))
+        for column, data_type in conversion_rules.items():
+            df = df.withColumn(column, col(column).cast(data_type))
         return df
 
     # Remove deduplication in current df and check destination_table based on keys
@@ -81,7 +81,38 @@ class DataFrameHandler:
     
     # Aggregate to a new column
     def _applyAggregation(self, df, aggregation_rules):
-        return df
+        # Extract group by column
+        group_by_column = aggregation_rules.get("group_by", None)
+
+        # Start with an empty dictionary to store aggregation expressions
+        aggregation_exprs = {}
+
+        # Iterate over each aggregation specified in the rule
+        for aggregation in aggregation_rules.get("aggregations", []):
+            # Extract aggregation function, column, and alias
+            agg_func, column, alias = aggregation
+
+            # Add aggregation expression to the dictionary
+            if agg_func == "avg":
+                aggregation_exprs[alias] = avg(column).alias(alias)
+            elif agg_func == "min":
+                aggregation_exprs[alias] = min(column).alias(alias)
+            elif agg_func == "max":
+                aggregation_exprs[alias] = max(column).alias(alias)
+            elif agg_func == "count":
+                aggregation_exprs[alias] = count(column).alias(alias)
+            elif agg_func == "variance":
+                aggregation_exprs[alias] = variance(column).alias(alias)
+            # Add more elif conditions for other aggregation functions as needed
+
+        # Apply group by if specified
+        if group_by_column:
+            df_grouped = df.groupBy(group_by_column).agg(aggregation_exprs)
+        else:
+            # If no group by column specified, apply aggregation directly
+            df_grouped = df.agg(aggregation_exprs)
+
+        return df_grouped
     
     # Rename and select wanted columns
     def _applySelect(self, df, select_rules):
@@ -104,7 +135,7 @@ class DataFrameHandler:
         return df.limit(limit_rules)
 
     # Apply transformations
-    def transformData(self, df_origin, df_destination):
+    def transformData(self, spark, df_origin, df_destination):
         self.rows_received = df_origin.count()
         transformation_rules = self.transformDefinition.getTransformationRules()
         df_transformed = df_origin
@@ -127,6 +158,10 @@ class DataFrameHandler:
                         df_transformed = self._applyOrder(df_transformed, value)
                     case "limit_rule":
                         df_transformed = self._applyLimit(df_transformed, value)
+                    case "sql_rule":
+                        df_transformed.createOrReplaceTempView("stock_data")
+                        value = value.replace("\n", " ").strip()
+                        df_transformed = spark.sql(value)
                     case _:
                         df_transformed = df_transformed
 
