@@ -13,6 +13,7 @@ def main(parameters):
     destination_table_name = parameters.get("-destination_table_name")
     log_table_name = parameters.get("-log_table_name")
     transform_definiton_path = parameters.get("-transform_definiton_path")
+    source_mode = parameters.get("-source_mode")
     write_mode = parameters.get("-write_mode")
 
     # Dynamically import the transform definition and assign it to the transformer
@@ -21,7 +22,11 @@ def main(parameters):
     transformer = DataFrameHandler(transformDefinition)
 
     # Pull data from source table and transform it
-    source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
+    if source_mode == "all":
+        source_df = DeltaReader.loadTable(spark, origin_table_name)
+    else:
+        source_df = DeltaReader.loadSourceByLog(spark, origin_table_name, log_table_name)
+        
     destination_df = DeltaReader.loadTable(spark, destination_table_name)
     final_df = transformer.transformData(spark, source_df, destination_df)
  
