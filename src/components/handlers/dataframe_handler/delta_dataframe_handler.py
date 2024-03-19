@@ -51,8 +51,8 @@ class DataFrameHandler:
 
     # Convert column format 
     def _applyConversions(self, df, conversion_rules):
-        for column, conversion_func in conversion_rules.items():
-            df = df.withColumn(column, conversion_func(col(column)))
+        for column, data_type in conversion_rules.items():
+            df = df.withColumn(column, col(column).cast(data_type))
         return df
 
     # Remove deduplication in current df and check destination_table based on keys

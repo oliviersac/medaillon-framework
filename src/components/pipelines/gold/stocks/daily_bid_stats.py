@@ -35,11 +35,11 @@ class TransformDefinition:
 
     def _getConversionRule():
         return {
-            "AverageBid": lambda x: when(x != "", x.cast(FloatType())).otherwise(None),
-            "MinimumBid": lambda x: when(x != "", x.cast(FloatType())).otherwise(None),
-            "MaximumBid": lambda x: when(x != "", x.cast(FloatType())).otherwise(None),
-            "VarianceBid": lambda x: when(x != "", x.cast(FloatType())).otherwise(None),
-            "CountStocks": lambda x: when(x != "", x.cast(FloatType())).otherwise(None)
+            "AverageBid": FloatType(),
+            "MinimumBid": FloatType(),
+            "MaximumBid": FloatType(),
+            "VarianceBid": FloatType(),
+            "CountStocks": FloatType()
         }
     
     def _getDedupeRule():
