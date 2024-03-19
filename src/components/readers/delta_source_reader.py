@@ -24,18 +24,22 @@ class DeltaReader:
         return spark.table(table_name)
     
     def loadTableCount(spark, table_name):
-        select_statement = f"""
-        SELECT 
-            count(*) as count_table
-        FROM 
-            {table_name};        
-        """
-        df = spark.sql(select_statement)
 
-        # Collect the DataFrame into a Python list of Rows
-        rows = df.collect()
+        try:
+            select_statement = f"""
+            SELECT 
+                count(*) as count_table
+            FROM 
+                {table_name};        
+            """
+            df = spark.sql(select_statement)
 
-        # Access the value of the count_table column from the first row
-        count_value = rows[0]["count_table"]
+            # Collect the DataFrame into a Python list of Rows
+            rows = df.collect()
+
+            # Access the value of the count_table column from the first row
+            count_value = rows[0]["count_table"]
+        except:
+            count_value = 0
 
         return count_value
