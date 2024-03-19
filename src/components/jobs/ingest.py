@@ -22,14 +22,14 @@ def main(parameters):
     spark_schema = module.TopicSchema.getSchema()
 
     # Counting rows before autoload
-    table_count_origin = DeltaReader.loadTableCount(destination_table_name)
+    table_count_origin = DeltaReader.loadTableCount(spark, destination_table_name)
 
     # Doing autoload
     autoloader = Autoloader(spark_schema)
     autoloader.autoload_to_table(spark,file_path,destination_table_name,checkpoint_path)
 
      # Counting rows after autoload and setting the value for the log table
-    table_count_end = DeltaReader.loadTableCount(destination_table_name)
+    table_count_end = DeltaReader.loadTableCount(spark, destination_table_name)
     rows_received = table_count_end - table_count_origin
     rows_added = rows_received
 
