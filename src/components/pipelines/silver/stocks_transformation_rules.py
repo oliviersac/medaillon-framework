@@ -1,4 +1,5 @@
 from pyspark.sql.functions import col, when
+from pyspark.sql.types import StringType
 
 class TransformDefinition:
     """Brief description of MyClass.
@@ -34,10 +35,10 @@ class TransformDefinition:
 
     def _getConversionRule() :
         return {
-            "LastTradeTime": lambda x: when(x != "", x.cast("string")).otherwise(None),
-            "LastTradeDate": lambda x: when(x != "", x.cast("string")).otherwise(None),
-            "Insertdatetime": lambda x: when(x != "", x.cast("string")).otherwise(None),
-            "Lastupdatetime": lambda x: when(x != "", x.cast("string")).otherwise(None)
+            "LastTradeTime": StringType(),
+            "LastTradeDate": StringType(),
+            "Insertdatetime": StringType(),
+            "Lastupdatetime": StringType()
         }
     
     def _getDedupeRule():
