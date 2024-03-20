@@ -58,9 +58,9 @@ class Autoloader:
         
         # Start the streaming query
         query = (streamingDF.writeStream
-                 .options(**writestream_options)  
-                 .trigger(availableNow=True)
-                 .toTable(f"{destination_table_name}", mode="append")
+                 .options(**writestream_options)
+                 .foreachBatch(self.process_batch)
+                 .outputMode("append")
                  .start())
         
         # Store the query object
