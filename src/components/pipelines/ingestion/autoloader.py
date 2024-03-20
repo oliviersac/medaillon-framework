@@ -2,9 +2,15 @@
 from pyspark.sql.functions import col, current_timestamp
 from pyspark.sql.types import StructField, StringType
 
+import sys
+sys.path.append('../../../')
+
+
+from writers.transfer_log_writer import TransferLogWriter
+
 class Autoloader:
     
-    def __init__(self, spark_schema, destination_table_name):
+    def __init__(self, spark_schema, destination_table_name, log_writer: TransferLogWriter):
         self.rows_received = 0
         self.rows_filtered = 0
         self.rows_deduped = 0
@@ -13,6 +19,7 @@ class Autoloader:
         self.destination_table_name = destination_table_name
         self.write_mode = "append"
         self.query = None
+        self.log_writer = log_writer
     
     def process_batch(self, batch_df, batch_id):
         # Count the number of rows received in the current batch
@@ -23,6 +30,11 @@ class Autoloader:
         
         # Example: Write batch_df to a destination table
         batch_df.write.mode(self.write_mode).saveAsTable(self.destination_table_name)
+
+        # Write to log
+        self.log_writer.writeTransferLog('S3', 'S3-dev-landing', 'delta', self.destination_table_name, '', 
+                                rows_received_in_batch, self.rows_filtered, 
+                                self.rows_deduped, rows_received_in_batch, 'SUCCESS', '')
 
 
     def autoload_to_table(self, spark, file_path: StringType,destination_table_name: StringType,checkpoint_path: StringType):
