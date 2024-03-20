@@ -75,5 +75,11 @@ class Autoloader:
                  .outputMode("append")
                  .start())
         
+
+        query = (streamingDF.writeStream
+            .options(**writestream_options)  
+            .trigger(availableNow=True)
+            .foreachBatch(self.process_batch))
+        
         # Store the query object
         self.query = query
