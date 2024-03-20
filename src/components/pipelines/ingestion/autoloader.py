@@ -3,7 +3,7 @@ from pyspark.sql.functions import col, current_timestamp
 from pyspark.sql.types import StructField, StringType
 
 import sys
-sys.path.append('../../../')
+sys.path.append('../../')
 
 
 from writers.transfer_log_writer import TransferLogWriter
