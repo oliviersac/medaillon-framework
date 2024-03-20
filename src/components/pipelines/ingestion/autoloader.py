@@ -59,4 +59,4 @@ class Autoloader:
         (streamingDF.writeStream
             .options(**writestream_options)  
             .trigger(availableNow=True)
-            .toTable(f"{destination_table_name}", self.write_mode))
+            .toTable(f"{self.destination_table_name}", mode=f"{self.write_mode}"))
