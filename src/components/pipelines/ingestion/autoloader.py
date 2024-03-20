@@ -68,14 +68,7 @@ class Autoloader:
             .load(file_path)
             .select("*", col("_metadata.file_path").alias("source_file"), current_timestamp().alias("processing_time")))
         
-        # Start the streaming query
-        query = (streamingDF.writeStream
-                 .options(**writestream_options)
-                 .foreachBatch(self.process_batch)
-                 .outputMode("append")
-                 .start())
-        
-
+       
         query = (streamingDF.writeStream
             .options(**writestream_options)  
             .trigger(availableNow=True)
