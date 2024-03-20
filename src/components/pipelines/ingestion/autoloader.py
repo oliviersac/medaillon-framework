@@ -3,10 +3,10 @@ from pyspark.sql.functions import col, current_timestamp
 from pyspark.sql.types import StructField, StringType
 
 import sys
-sys.path.append('../../')
+sys.path.append('../../../')
 
 
-from writers.transfer_log_writer import TransferLogWriter
+from src.components.writers.transfer_log_writer import TransferLogWriter
 
 class Autoloader:
     
