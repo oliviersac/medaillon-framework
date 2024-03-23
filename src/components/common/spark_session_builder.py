@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 
 class SparkSessionBuilder:
-    def _init(self, project_name):
+    def __init__(self, project_name):
         self.project_name = project_name
 
     def buildSparkSession(self) -> SparkSession:
