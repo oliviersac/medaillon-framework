@@ -1,6 +1,6 @@
 from pyspark.sql import DataFrame
 
-class DeltaTableWriter():
+class DeltaTableWriter:
 
     def saveDfIntoTable(df: DataFrame, destination_table_name):
         try:

@@ -2,14 +2,13 @@ import sys
 sys.path.append('../')
 
 import importlib
-
+from pyspark.sql import SparkSession
 from pipelines.ingestion.autoloader import Autoloader
 from handlers.parameters_handler.argument_parser import ArgumentParser
 from writers.transfer_log_writer import TransferLogWriter
-from readers.delta_source_reader import DeltaReader
+from common.spark_session_builder import SparkSessionBuilder
 
-
-def main(parameters):
+def main(parameters, spark: SparkSession) -> None:
     # Obtain parameters 
     file_path = parameters.get("-file_path")
     destination_table_name = parameters.get("-destination_table_name")
@@ -36,5 +35,10 @@ def main(parameters):
                                 autoloader.rows_deduped, rows_added, 'SUCCESS', '')
 
 if __name__ == '__main__':
-  parameters = ArgumentParser.parse_arguments(sys.argv)
-  main(parameters)
+    parameters = ArgumentParser.parse_arguments(sys.argv)
+
+    # Initialize SparkSession
+    spark_session_builder = SparkSessionBuilder("Datalake-test")
+    spark = spark_session_builder.buildSparkSession()
+
+    main(parameters, spark)

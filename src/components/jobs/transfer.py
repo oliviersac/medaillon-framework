@@ -7,6 +7,7 @@ from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
 from readers.delta_source_reader import DeltaReader
 from handlers.parameters_handler.argument_parser import ArgumentParser
 from writers.transfer_log_writer import TransferLogWriter
+from common.spark_session_builder import SparkSessionBuilder
 
 def main(parameters: list, spark: SparkSession) -> None:
     # Obtain parameters 
@@ -61,8 +62,7 @@ if __name__ == '__main__':
     parameters = ArgumentParser.parse_arguments(sys.argv)
 
     # Initialize SparkSession
-    spark: SparkSession = (SparkSession.builder 
-        .appName("Datalake-test") 
-        .getOrCreate())
+    spark_session_builder = SparkSessionBuilder("Datalake-test")
+    spark = spark_session_builder.buildSparkSession()
 
     main(parameters, spark)
