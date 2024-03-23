@@ -2,12 +2,13 @@ import sys
 sys.path.append('../')
 
 import importlib
+from pyspark.sql import SparkSession
 from handlers.dataframe_handler.delta_dataframe_handler import DataFrameHandler
 from readers.delta_source_reader import DeltaReader
 from handlers.parameters_handler.argument_parser import ArgumentParser
 from writers.transfer_log_writer import TransferLogWriter
 
-def main(parameters: list) -> None:
+def main(parameters: list, spark: SparkSession) -> None:
     # Obtain parameters 
     origin_table_name = parameters.get("-origin_table_name")
     destination_table_name = parameters.get("-destination_table_name")
@@ -57,5 +58,11 @@ def main(parameters: list) -> None:
     
 
 if __name__ == '__main__':
-  parameters = ArgumentParser.parse_arguments(sys.argv)
-  main(parameters)
+    parameters = ArgumentParser.parse_arguments(sys.argv)
+
+    # Initialize SparkSession
+    spark: SparkSession = (SparkSession.builder 
+        .appName("Datalake-test") 
+        .getOrCreate())
+
+    main(parameters, spark)
