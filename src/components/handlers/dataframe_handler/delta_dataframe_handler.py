@@ -1,6 +1,6 @@
 from pyspark.sql.functions import col, avg, min, max, count, variance
 from pyspark.sql import functions as F
-from pyspark.sql import DataFrame
+from pyspark.sql import DataFrame, SparkSession
 
 class DataFrameHandler:   
     """Brief description of MyClass.
@@ -34,7 +34,7 @@ class DataFrameHandler:
         self.rows_added = 0
 
     ## Apply filters based on filter rules
-    def _applyFilters(self, df, filter_rules) -> DataFrame:
+    def _applyFilters(self, df: DataFrame, filter_rules) -> DataFrame:
         """
             Apply filters on a dataframe and return the new df
 
@@ -57,7 +57,7 @@ class DataFrameHandler:
         return df_filtered
 
     # Convert column format 
-    def _applyConversions(self, df, conversion_rules) -> DataFrame:
+    def _applyConversions(self, df: DataFrame, conversion_rules) -> DataFrame:
         """
             Apply conversions on columns over a dataframe and return the new df
 
@@ -69,7 +69,7 @@ class DataFrameHandler:
         return df
 
     # Remove deduplication in current df and check destination_table based on keys
-    def _applyDeduplication(self, df_origin, df_destination, dedupe_columns) -> DataFrame:
+    def _applyDeduplication(self, df_origin: DataFrame, df_destination: DataFrame, dedupe_columns) -> DataFrame:
         """
             Apply deduplication over a dataframe and return the new df
 
@@ -100,7 +100,7 @@ class DataFrameHandler:
         return deduplicated_df
     
     # Aggregate to a new column
-    def _applyAggregation(self, df, aggregation_rules) -> DataFrame:
+    def _applyAggregation(self, df: DataFrame, aggregation_rules) -> DataFrame:
         """
             Apply an aggregation over a dataframe and return the the new df
 
@@ -140,7 +140,7 @@ class DataFrameHandler:
 
         return df_grouped
 
-    def _applySelect(self, df, select_rules) -> DataFrame:
+    def _applySelect(self, df: DataFrame, select_rules) -> DataFrame:
         """
             Apply a Select over a dataframe and return the the new df
 
@@ -149,7 +149,7 @@ class DataFrameHandler:
         """
         return df.select(select_rules)
     
-    def _applyOrder(self, df, sort_rules) -> DataFrame:
+    def _applyOrder(self, df: DataFrame, sort_rules) -> DataFrame:
         """
             Apply an order over a dataframe and return the the new df
 
@@ -168,7 +168,7 @@ class DataFrameHandler:
         sorted_df = df.orderBy(*orderBy_exprs)
         return sorted_df
     
-    def _applyLimit(self, df, limit_rules) -> DataFrame:
+    def _applyLimit(self, df: DataFrame, limit_rules) -> DataFrame:
         """
             Apply a limit over a dataframe and return the new df
 
@@ -177,7 +177,7 @@ class DataFrameHandler:
         """
         return df.limit(limit_rules)
 
-    def transformData(self, spark, df_origin, df_destination) -> DataFrame:
+    def transformData(self, spark: SparkSession, df_origin: DataFrame, df_destination: DataFrame) -> DataFrame:
         """
             Apply transformations on a dataframe and return a new df
 
