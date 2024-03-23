@@ -7,7 +7,7 @@ from readers.delta_source_reader import DeltaReader
 from handlers.parameters_handler.argument_parser import ArgumentParser
 from writers.transfer_log_writer import TransferLogWriter
 
-def main(parameters):
+def main(parameters: list) -> None:
     # Obtain parameters 
     origin_table_name = parameters.get("-origin_table_name")
     destination_table_name = parameters.get("-destination_table_name")

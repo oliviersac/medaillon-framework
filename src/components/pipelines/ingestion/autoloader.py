@@ -13,7 +13,7 @@ class Autoloader:
         self.destination_table_name = destination_table_name
         self.write_mode = "append"
     
-    def process_batch(self, batch_df, batch_id):
+    def process_batch(self, batch_df, batch_id) -> None:
         # Count the number of rows received in the current batch
         rows_received_in_batch = batch_df.count()
         self.rows_received += rows_received_in_batch
@@ -24,7 +24,7 @@ class Autoloader:
         batch_df.write.mode(self.write_mode).saveAsTable(self.destination_table_name)
 
 
-    def autoload_to_table(self, spark, file_path: StringType,destination_table_name: StringType,checkpoint_path: StringType):
+    def autoload_to_table(self, spark, file_path: StringType, destination_table_name: StringType,checkpoint_path: StringType) -> None:
         # Set the schema for the data to stream
         spark_schema = self.spark_schema
 

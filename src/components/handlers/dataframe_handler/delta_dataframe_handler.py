@@ -1,5 +1,6 @@
 from pyspark.sql.functions import col, avg, min, max, count, variance
 from pyspark.sql import functions as F
+from pyspark.sql import DataFrame
 
 class DataFrameHandler:   
     """Brief description of MyClass.
@@ -33,7 +34,13 @@ class DataFrameHandler:
         self.rows_added = 0
 
     ## Apply filters based on filter rules
-    def _applyFilters(self, df, filter_rules):        
+    def _applyFilters(self, df, filter_rules) -> DataFrame:
+        """
+            Apply filters on a dataframe and return the new df
+
+            :param df: A dataframe with data
+            :param filter_rules: The filter rules to apply
+        """  
         df_count = df.count()
         filters = []
 
@@ -50,13 +57,26 @@ class DataFrameHandler:
         return df_filtered
 
     # Convert column format 
-    def _applyConversions(self, df, conversion_rules):
+    def _applyConversions(self, df, conversion_rules) -> DataFrame:
+        """
+            Apply conversions on columns over a dataframe and return the new df
+
+            :param df: A dataframe with data
+            :param conversion_rules: The conversion rules
+        """
         for column, data_type in conversion_rules.items():
             df = df.withColumn(column, col(column).cast(data_type))
         return df
 
     # Remove deduplication in current df and check destination_table based on keys
-    def _applyDeduplication(self, df_origin, df_destination, dedupe_columns):
+    def _applyDeduplication(self, df_origin, df_destination, dedupe_columns) -> DataFrame:
+        """
+            Apply deduplication over a dataframe and return the new df
+
+            :param df_origin: A dataframe with data
+            :param df_destination: The destination dataframe to apply deduplication on
+            :param dedupe_columns: The dedupe column rules applied on the dataframe
+        """
         df_count = df_origin.count()
         # Deduplicate the DataFrame based on two specific columns
         deduplicated_df = df_origin.dropDuplicates(dedupe_columns)
@@ -80,7 +100,13 @@ class DataFrameHandler:
         return deduplicated_df
     
     # Aggregate to a new column
-    def _applyAggregation(self, df, aggregation_rules):
+    def _applyAggregation(self, df, aggregation_rules) -> DataFrame:
+        """
+            Apply an aggregation over a dataframe and return the the new df
+
+            :param df: A dataframe with data
+            :param parameter: The aggregation rules applied on the dataframe
+        """
         # Extract group by column
         group_by_column = aggregation_rules.get("group_by", None)
 
@@ -113,12 +139,23 @@ class DataFrameHandler:
             df_grouped = df.agg(aggregation_exprs)
 
         return df_grouped
-    
-    # Rename and select wanted columns
-    def _applySelect(self, df, select_rules):
+
+    def _applySelect(self, df, select_rules) -> DataFrame:
+        """
+            Apply a Select over a dataframe and return the the new df
+
+            :param df: A dataframe with data
+            :param select_rules: The select rules applied on the dataframe
+        """
         return df.select(select_rules)
     
-    def _applyOrder(self, df, sort_rules):
+    def _applyOrder(self, df, sort_rules) -> DataFrame:
+        """
+            Apply an order over a dataframe and return the the new df
+
+            :param df: A dataframe with data
+            :param sort_rules: The sorting rules applied on the dataframe
+        """
         # Create an empty list to store orderBy expressions
         orderBy_exprs = []
         # Iterate over each sorting rule
@@ -131,11 +168,23 @@ class DataFrameHandler:
         sorted_df = df.orderBy(*orderBy_exprs)
         return sorted_df
     
-    def _applyLimit(self, df, limit_rules):
+    def _applyLimit(self, df, limit_rules) -> DataFrame:
+        """
+            Apply a limit over a dataframe and return the new df
+
+            :param df: A dataframe with data
+            :param limit_rules: The limit rules applied on the dataframe
+        """
         return df.limit(limit_rules)
 
-    # Apply transformations
-    def transformData(self, spark, df_origin, df_destination):
+    def transformData(self, spark, df_origin, df_destination) -> DataFrame:
+        """
+            Apply transformations on a dataframe and return a new df
+
+            :param spark: The spark object to process the dataframe
+            :param df_origin: A dataframe from the origin
+            :param df_destination: A dataframe related to the destination. In order to dedupe
+        """
         self.rows_received = df_origin.count()
         transformation_rules = self.transformDefinition.getTransformationRules()
         df_transformed = df_origin

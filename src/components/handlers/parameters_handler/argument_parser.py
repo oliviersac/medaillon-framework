@@ -2,7 +2,11 @@
 class ArgumentParser:
 
     def parse_arguments(arguments):
+        """
+            Parse arguments and return a list
 
+            :param arguments: Arguments that will be parsed
+        """  
         # Remove the first argument (script name)
         arguments = arguments[1:]
 
