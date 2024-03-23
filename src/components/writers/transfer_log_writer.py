@@ -1,5 +1,7 @@
+from pyspark.sql import SparkSession
+
 class TransferLogWriter:
-    def __init__(self, spark):
+    def __init__(self, spark: SparkSession):
         self.name = ""
         self.spark = spark
 

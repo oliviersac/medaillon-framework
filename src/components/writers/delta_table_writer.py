@@ -1,6 +1,8 @@
+from pyspark.sql import DataFrame
+
 class DeltaTableWriter():
 
-    def saveDfIntoTable(df, destination_table_name):
+    def saveDfIntoTable(df: DataFrame, destination_table_name):
         try:
             transfer_status = 'SUCCESS'
             failed_reason = ''
