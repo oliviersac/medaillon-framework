@@ -29,9 +29,8 @@ def main(parameters, spark: SparkSession) -> None:
     rows_added = 0
 
     # Insert a new transfer log entry
-    log_writer = TransferLogWriter(spark)
-    log_writer.writeTransferLog('S3', 'S3-dev-landing', 'delta', destination_table_name, '', 
-                                rows_received, autoloader.rows_filtered, 
+    log_writer = TransferLogWriter(spark, 'S3', 'Delta')
+    log_writer.writeTransferLog('S3-dev-landing', destination_table_name, '', rows_received, autoloader.rows_filtered, 
                                 autoloader.rows_deduped, rows_added, 'SUCCESS', '')
 
 if __name__ == '__main__':
