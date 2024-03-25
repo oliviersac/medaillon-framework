@@ -47,7 +47,7 @@ def main(parameters: list, spark: SparkSession) -> None:
     delta_table_writer.saveDfIntoTable(final_df)
 
     # Log Transfer in the log table
-    delta_log_writer.writeTransferLogFromComponents(spark,'Delta', 'Delta', delta_reader_origin, transformer, delta_table_writer)
+    delta_log_writer.writeTransferLogFromComponents(delta_reader_origin, transformer, delta_table_writer)
 
 
 if __name__ == '__main__':
