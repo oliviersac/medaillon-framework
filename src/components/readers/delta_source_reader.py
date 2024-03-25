@@ -10,9 +10,9 @@ class DeltaReader:
 
     def readFromDelta(self):       
         if self.read_mode == "all":
-            df = self._loadTable()
+            df = self._readTable()
         else:
-            df = self._loadSourceByLog()
+            df = self._readSourceByLog()
         return df
 
 
