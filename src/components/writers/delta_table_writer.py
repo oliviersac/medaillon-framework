@@ -12,7 +12,7 @@ class DeltaTableWriter:
         try:
             self.transfer_status = 'SUCCESS'
             self.failed_reason = ''
-            df.write.mode("append").saveAsTable(self.destination_table_name)
+            df.write.mode(self.write_mode).saveAsTable(self.destination_table_name)
         except Exception as e:
             self.transfer_status = 'FAILED'
             self.failed_reason = str(e)      
