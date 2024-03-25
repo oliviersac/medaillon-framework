@@ -28,7 +28,7 @@ def main(parameters: list, spark: SparkSession) -> None:
 
     # Define readers and writers
     delta_reader_origin = DeltaReader(spark, source_mode, origin_table_name, log_table_name)
-    delta_reader_destination = DeltaReader(spark, "all", origin_table_name, log_table_name)
+    delta_reader_destination = DeltaReader(spark, "all", destination_table_name, log_table_name)
     delta_table_writer = DeltaTableWriter(destination_table_name, write_mode)
     delta_log_writer = TransferLogWriter(spark, 'Delta', 'Delta')
 
