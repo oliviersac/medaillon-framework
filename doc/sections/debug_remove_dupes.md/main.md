@@ -1,6 +1,9 @@
-
-### Related Documentation
+#### Documentation Menu
 - [Project Main Documentation](../../../README.md)
+<br><br><br>
+
+# Debugging Data Tips
+
 
 ## Finding dupes in a table
 ```sql
