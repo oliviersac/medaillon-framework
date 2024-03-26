@@ -25,20 +25,22 @@ For more details about the medaillon architecture: [Medaillon Architecure Docume
 - [Databricks Configuration](doc/sections/databricks_configuration/main.md)
 - [Local Setup](doc/sections/local_setup/main.md)
 
-#### Architecture:
-- [Main Architecure](doc/sections/medaillon_architecture/main.md)
+#### Architecture and Main Components:
+- [Medaillon Architecure](doc/sections/medaillon_architecture/main.md)
 - [Architectural Components](doc/sections/main_components/main.md)
+- [Datalake Meta Store](doc/sections/databricks_metastore/main.md)
 
 #### Ingestion
 - Spark Streaming
 - Incremental Load
+- [Schema Evolution](doc/sections/schema_evolution/main.md)
 
-#### Data transformations
+#### Data Transformations
 - Supported data transformations
 - Replay
 
-#### Jobs and orchestration
-- Databricks Workflows
+#### Jobs and Orchestration
+- [Databricks Workflows](doc/sections/databricks_workflows/main.md)
 - Transfer Log table
 
 #### Automated Testing
