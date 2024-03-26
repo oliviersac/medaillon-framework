@@ -1,8 +1,8 @@
-# Databricks Schema Evolution
+#### Documentation Menu
+- [Project Main Documentation](../../../README.md)
+<br><br><br>
 
-## Related Elements
-- [Databricks Main Doc](./Databricks.md)
-- [Databricks Autoloader](./Autoloader.md)
+# Databricks Schema Evolution
 
 ## Required elements
 - [Databricks Main Doc](./Schema-definition.md)
