@@ -1,44 +1,50 @@
-# Databricks Datalake Framework
+# Project Name: Medallion Data Lake Framework
 
+The Medallion Data Lake Framework is a Python-based framework designed to simplify the process of building data lakes using PySpark and Amazon S3. Leveraging the principles of the Medallion architecture, this framework streamlines data ingestion, storage, transformation, and transfer, enabling developers to effortlessly create robust data pipelines.
 
-## Description
+## Key Features:
+- Seamless data ingestion from bucket storage.
+- Integration with meta stores for efficient data management.
+- Implementation of the bronze, silver, and gold layers for comprehensive data - organization.
+- Flexible data transformation and transfer between layers using defined rules.
+- Orchestration of pipeline steps through customizable workflows.
+- Support for various orchestration tools, such as Databricks workflows.
+- Task-based approach for defining pipeline steps, including ingest, transfer, and replay.
+- Reusability of tasks to construct comprehensive data pipelines with varying - parameters and transformation rules.
+- High reusability, enabling the creation of multiple data lake projects with ease.
 
-This service handles data ingestion and data transformations based on the medaillon architecture for Data-Lakes. 
+## How it Works:
+The Medallion Data Lake Framework follows a modular approach, where developers define transformation rules and orchestrate pipeline steps to move data between layers. By encapsulating common tasks into reusable components, developers can rapidly construct and customize data pipelines for specific project requirements.
 
-## Architecture
-This project is following the medaillon architecture. You can access more details and documentation by following this link
-[Medaillon Architecure Documentation](doc/sections/medaillon_architecture/main.md)
+For more details about the medaillon architecture: [Medaillon Architecure Documentation](doc/sections/medaillon_architecture/main.md)
 
 ## Documentation Sections
 
 #### Getting Started:
 - [AWS Setup](doc/sections/aws_setup/main.md)
-- Databricks Configuration
-- Local Setup
+- [Databricks Configuration](doc/sections/databricks_configuration/main.md)
+- [Local Setup](doc/sections/local_setup/main.md)
 
 #### Architecture:
 - [Main Architecure](doc/sections/medaillon_architecture/main.md)
 - [Architectural Components](doc/sections/main_components/main.md)
 
+#### Ingestion
+- Spark Streaming
+- Incremental Load
+
+#### Data transformations
+- Supported data transformations
+- Replay
+
+#### Jobs and orchestration
+- Databricks Workflows
+- Transfer Log table
+
+#### Automated Testing
+- How to create a new test
+
 #### How to:
 - [Creating a new pipeline](doc/sections/creating_pipelines/main.md)
 - [Creating and running tests](doc/sections/automated_testing/main.md)
 - [Delete duplicates in a delta table](doc/sections/debug_remove_dupes.md/main.md)
-- [Setup Spark Locally](doc/sections/local_setup/main.md)
-
-
-
-
-## Components
-Components are essential parts of the execution of data pipelines. They are involved in any data movement from origin to destination involving data transformations. Finaly, components are involved in the orchestration of the different steps required for a full pipeline.
-
-[More information on the components section](doc/sections/main_components/main.md)
-
-
-## How Medaillon Architecture is managed
-
-
-
-
-## Local Setup
-Local setup is not defined yet
