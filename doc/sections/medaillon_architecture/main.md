@@ -1,7 +1,8 @@
-# Medaillon Architecture
-
-## Related Documentation
+#### Documentation Menu
 - [Project Main Documentation](../../../README.md)
+<br><br><br>
+
+# Medaillon Architecture
 
 
 ## Main concept

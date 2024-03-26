@@ -1,8 +1,8 @@
-# How to create a Data Pipeline from an S3 Event Bucket
-
-## Related Documentation
+#### Documentation Menu
 - [Project Main Documentation](../../../README.md)
+<br><br><br>
 
+# How to create a Data Pipeline from an S3 Event Bucket
 
 ## 1. Define the Schema with the stakeholders
 This is done by bla
