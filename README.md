@@ -31,7 +31,7 @@ For more details about the medaillon architecture: [Medaillon Architecure Docume
 - [Datalake Meta Store](doc/sections/databricks_metastore/main.md)
 
 #### Ingestion
-- Spark Streaming
+- [Spark Streaming and Auto-Loading](doc/sections/databricks_autoloader/main.md)
 - Incremental Load
 - [Schema Evolution](doc/sections/schema_evolution/main.md)
 
